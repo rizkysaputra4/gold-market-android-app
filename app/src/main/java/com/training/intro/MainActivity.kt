@@ -1,5 +1,6 @@
 package com.training.intro
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +19,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d(TAB,"onCreate")
 
+        this.setBtnListener()
     }
 
+    fun setBtnListener() {
+        btnToRegister.setOnClickListener {
+            Intent(this, Register::class.java).also {
+                startActivity(it)
+            }
+        }
 
+        btnToLogin.setOnClickListener {
+            Intent(this, Login::class.java).also {
+                startActivity(it)
+            }
+        }
+    }
 }
