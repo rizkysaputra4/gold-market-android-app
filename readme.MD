@@ -20,3 +20,18 @@
     <img src="./scImage/login.png" height="300" />
 </div>
 &nbsp;
+<div> 
+    <p>Login screen</p>
+    <img src="./scImage/home.png" height="300" />
+</div>
+&nbsp;
+<div> 
+    <p>Login screen</p>
+    <img src="./scImage/profile.png" height="300" />
+</div>
+&nbsp;
+<div> 
+    <p>Login screen</p>
+    <img src="./scImage/transaction.png" height="300" />
+</div>
+&nbsp;
