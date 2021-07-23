@@ -1,37 +1,42 @@
 package com.training.intro
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import com.training.intro.fragment.HistoryFragment
+import com.training.intro.fragment.HomeFragment
+import com.training.intro.fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var textViewTitle: TextView
-    val TAB = "main activity"
-    var num: Int = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d(TAB,"onCreate")
+        this.switchFragment(HomeFragment())
 
         this.setBtnListener()
     }
 
     fun setBtnListener() {
-        btnToRegister.setOnClickListener {
-            Intent(this, Register::class.java).also {
-                startActivity(it)
-            }
-        }
+        btnHome.setOnClickListener { this.switchFragment(HomeFragment()) }
+        btnHistory.setOnClickListener{ this.switchFragment(HistoryFragment())}
+        btnProfile.setOnClickListener{ this.switchFragment(ProfileFragment())}
+    }
 
-        btnToLogin.setOnClickListener {
-            Intent(this, Login::class.java).also {
-                startActivity(it)
+    fun switchFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        when(fragment) {
+            is HomeFragment -> {
+                transaction.replace(R.id.viewFragment, fragment).commit()
+            }
+            is HistoryFragment -> {
+                transaction.replace(R.id.viewFragment, fragment)
+                transaction.commit()
+            }
+            is ProfileFragment -> {
+                transaction.replace(R.id.viewFragment, fragment)
+                transaction.commit()
             }
         }
     }

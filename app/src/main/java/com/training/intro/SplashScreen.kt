@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Window
 import android.view.WindowManager
 
 class SplashScreen : AppCompatActivity() {
@@ -19,7 +18,7 @@ class SplashScreen : AppCompatActivity() {
 
         Looper.myLooper()?.let {
             Handler(it).postDelayed({
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, WelcomePage::class.java)
                 startActivity(intent)
                 finish()
             },2500)

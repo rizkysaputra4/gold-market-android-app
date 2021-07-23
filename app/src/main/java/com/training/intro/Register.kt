@@ -19,5 +19,10 @@ class Register : AppCompatActivity() {
                 startActivity(it)
             }
         }
+        btnRegister.setOnClickListener {
+            Intent(this, MainActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 }
