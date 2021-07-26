@@ -1,22 +1,20 @@
-package com.training.intro.fragment
+package com.training.intro
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
-import com.training.intro.MainActivity
-import com.training.intro.R
+import androidx.navigation.fragment.findNavController
 
-class HomeFragment : Fragment() {
+class SplashFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        (activity as AppCompatActivity).supportActionBar?.title = "Home"
+        (activity as MainActivity).supportActionBar?.hide()
     }
 
     override fun onCreateView(
@@ -24,15 +22,17 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.activity_splash_screen, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).showBottomNav()
-//        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        (activity as MainActivity)?.supportActionBar?.show()
-    }
+        Handler(Looper.getMainLooper()).postDelayed({
+//            getActivity()?.getWindow()?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+            findNavController().navigate(R.id.action_splashScreen_to_welcomePage)
+
+        }, 2500)
+    }
 
 }

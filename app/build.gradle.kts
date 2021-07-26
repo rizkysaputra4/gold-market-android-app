@@ -26,6 +26,11 @@ android {
             )
         }
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -52,6 +57,11 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
+    //navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.4.0-alpha05")
+    implementation("androidx.navigation:navigation-ui-ktx:2.4.0-alpha05")
+
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")

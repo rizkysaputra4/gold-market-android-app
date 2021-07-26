@@ -6,69 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView7"
-        android:layout_width="403dp"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnHome"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Home"
-                android:textColor="@color/black"
-                app:backgroundTint="@color/white"
-                app:icon="@drawable/ic_baseline_home_24"
-                app:iconGravity="top"
-                app:iconTint="#000000" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnHistory"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="History"
-                android:textColor="#000000"
-                app:backgroundTint="@color/white"
-                app:icon="@drawable/ic_baseline_history_24"
-                app:iconGravity="top"
-                app:iconTint="@color/black"
-                app:iconTintMode="src_atop" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Profile"
-                android:textColor="#000000"
-                app:backgroundTint="@color/white"
-                app:icon="@drawable/ic_baseline_person_24"
-                app:iconGravity="top"
-                app:iconTint="@color/black" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/viewFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView7"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph">
 
-    </FrameLayout>
+    </androidx.fragment.app.FragmentContainerView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="409dp"
+        android:layout_height="60dp"
+        android:background="#FFFFFF"
+        app:itemBackground="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu"
+        app:itemTextColor="@xml/nav_color"
+        app:itemIconTint="@xml/nav_color"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
