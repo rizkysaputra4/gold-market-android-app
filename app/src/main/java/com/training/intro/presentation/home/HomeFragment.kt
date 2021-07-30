@@ -1,14 +1,12 @@
-package com.training.intro.fragment
+package com.training.intro.presentation.home
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.training.intro.MainActivity
+import com.training.intro.presentation.MainActivity
 import com.training.intro.R
 
 class HomeFragment : Fragment() {

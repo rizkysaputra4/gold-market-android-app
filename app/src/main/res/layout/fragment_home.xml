@@ -6,7 +6,7 @@
     android:backgroundTint="#FBFCFF"
     android:background="#FBFCFF"
     android:layout_height="match_parent"
-    tools:context=".fragment.HomeFragment">
+    tools:context=".presentation.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

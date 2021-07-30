@@ -1,4 +1,4 @@
-package com.training.intro
+package com.training.intro.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.training.intro.R
 import com.training.intro.databinding.FragmentWelcomeBinding
 import kotlinx.android.synthetic.main.fragment_welcome.*
 

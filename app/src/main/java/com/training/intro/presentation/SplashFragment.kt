@@ -1,4 +1,4 @@
-package com.training.intro
+package com.training.intro.presentation
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.navigation.fragment.findNavController
+import com.training.intro.R
 
 class SplashFragment : Fragment() {
 
