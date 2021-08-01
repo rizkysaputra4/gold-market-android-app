@@ -72,7 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/textInputUsername"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -81,14 +81,14 @@
                 android:inputType="textPersonName"
                 android:text=""
                 android:hint="Enter you username"
-                app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
+                app:layout_constraintBottom_toTopOf="@+id/textinputEmail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/textinputEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -97,14 +97,14 @@
                 android:inputType="textEmailAddress"
                 android:hint="Enter your email"
                 android:text=""
-                app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName4"
+                app:layout_constraintBottom_toTopOf="@+id/textInputPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputUsername" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/textInputPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -117,7 +117,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+                app:layout_constraintTop_toBottomOf="@+id/textinputEmail" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

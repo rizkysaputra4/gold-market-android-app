@@ -16,7 +16,6 @@
             android:id="@+id/cardView3"
             android:layout_width="409dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -31,6 +30,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="16dp"
+                    android:clickable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -43,7 +43,7 @@
                         android:background="@xml/btn_gray">
 
                         <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/btnBuyProduct"
                             android:layout_width="0dp"
                             android:layout_height="60dp"
                             android:layout_marginStart="30dp"
@@ -62,14 +62,14 @@
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="30dp"
                             android:layout_marginBottom="10dp"
-                            android:text="Harga jual saat ini"
-                            app:layout_constraintBottom_toTopOf="@+id/textView17"
+                            android:text="Harga jual saat ini (gr)"
+                            app:layout_constraintBottom_toTopOf="@+id/viewTextBuyProduct"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView17"
+                            android:id="@+id/viewTextBuyProduct"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
@@ -78,7 +78,7 @@
                             android:text="Rp. 870.000"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/button4"
+                            app:layout_constraintBottom_toTopOf="@+id/btnBuyProduct"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -103,7 +103,7 @@
                         android:background="@xml/btn_gray">
 
                         <Button
-                            android:id="@+id/button3"
+                            android:id="@+id/btnSellProduct"
                             android:layout_width="0dp"
                             android:layout_height="60dp"
                             android:layout_marginStart="30dp"
@@ -123,13 +123,13 @@
                             android:layout_marginEnd="30dp"
                             android:layout_marginBottom="10dp"
                             android:text="Harga beli saat ini per gr"
-                            app:layout_constraintBottom_toTopOf="@+id/textView15"
+                            app:layout_constraintBottom_toTopOf="@+id/viewTextSellProduct"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/viewTextSellProduct"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
@@ -138,7 +138,7 @@
                             android:text="Rp. 900.000"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@+id/button3"
+                            app:layout_constraintBottom_toTopOf="@+id/btnSellProduct"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -149,7 +149,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView6"
+            android:id="@+id/cardViewPocketInfo"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginStart="16dp"
@@ -166,7 +166,7 @@
                 android:background="@xml/btn_login">
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/viewPocketTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -176,72 +176,72 @@
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/textView13"
+                    app:layout_constraintBottom_toTopOf="@+id/viewTotalPocket"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/viewTotalPocket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Total pocket kamu ada 2"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="@+id/textView12"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                    app:layout_constraintStart_toStartOf="@+id/viewPocketGram"
+                    app:layout_constraintTop_toBottomOf="@+id/viewPocketTotalPrice" />
 
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/viewPocketGram"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="100 gram"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                    app:layout_constraintStart_toStartOf="@+id/viewPocketTotalPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/viewPocketTitle" />
 
                 <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/viewPocketTotalPrice"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="33dp"
                     android:text="Rp. 9000.000,00"
                     android:textColor="#FFFFFF"
                     android:textSize="34sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView10"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintStart_toStartOf="@+id/viewPocketTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/viewPocketGram" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
+            android:id="@+id/btnChangePocket"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             android:background="@xml/btn_gray"
             android:backgroundTintMode="add"
             android:text="Ubah Pocket"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button"
-            app:layout_constraintTop_toTopOf="@+id/button" />
+            app:layout_constraintStart_toEndOf="@+id/btnCreatePocket"
+            app:layout_constraintTop_toTopOf="@+id/btnCreatePocket" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/btnCreatePocket"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"
             android:background="@xml/btn_gray"
             android:text="Buat Pocket"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintEnd_toStartOf="@+id/btnChangePocket"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView6" />
+            app:layout_constraintTop_toBottomOf="@+id/cardViewPocketInfo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

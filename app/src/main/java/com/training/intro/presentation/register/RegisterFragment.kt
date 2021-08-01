@@ -7,9 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.training.intro.R
+import com.training.intro.di.DependencyContainer
+import com.training.intro.model.User
+import com.training.intro.presentation.MainActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterFragment : Fragment() {
+
+    lateinit var viewModel: RegisterViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_register)
@@ -25,7 +31,7 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        this.viewModel = (activity as MainActivity).getRegisterViewModel()
         this.registerOnClickBtn(view)
     }
 
@@ -34,7 +40,13 @@ class RegisterFragment : Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_register_to_login)
         }
         btnRegister.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_register_to_homeFragment)
+            onClickRegister(view, textInputUsername.text.toString(),
+                textinputEmail.text.toString(), textInputPassword.text.toString())
         }
+    }
+
+    fun onClickRegister(view: View, userName: String, email: String, password: String) {
+        viewModel.register(userName, email, password)
+        Navigation.findNavController(view).navigate(R.id.action_register_to_login)
     }
 }
