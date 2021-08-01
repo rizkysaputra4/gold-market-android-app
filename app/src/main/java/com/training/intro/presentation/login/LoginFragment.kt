@@ -48,6 +48,7 @@ class LoginFragment : Fragment() {
         val isAuthorized = viewModel.login(viewTextUserName.text.toString(), viewTextPassword.text.toString())
         if (isAuthorized) {
             Navigation.findNavController(view).navigate(R.id.action_login_to_homeFragment)
+            (activity as MainActivity).saveState()
             return
         }
         Toast.makeText(activity, "Username or password not match", Toast.LENGTH_LONG).show()

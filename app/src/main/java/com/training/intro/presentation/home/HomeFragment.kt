@@ -89,8 +89,8 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
 
         messageBoxView.btnAddPocket.setOnClickListener {
             viewModel.addNewPocket(messageBoxView.textPocketName.text.toString(), this.selectedPocketType)
-
             messageBoxInstance.dismiss()
+            (activity as MainActivity).saveState()
         }
     }
 
@@ -119,6 +119,7 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         messageBoxView.btnSellPocketProduct.setOnClickListener {
             viewModel.sellPocket(messageBoxView.inputNumberSell.text.toString().toDouble())
             messageBoxInstance.dismiss()
+            (activity as MainActivity).saveState()
         }
     }
 
@@ -131,6 +132,7 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         messageBoxView.btnBuyPocketProduct.setOnClickListener {
             viewModel.buyPocket(messageBoxView.inputNumberBuy.text.toString().toDouble())
             messageBoxInstance.dismiss()
+            (activity as MainActivity).saveState()
         }
     }
 

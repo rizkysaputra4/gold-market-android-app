@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.modal_edit_user_data.view.*
 
 class ProfileFragment : Fragment() {
 
-    lateinit var viewModel: MainViewModel
+    lateinit var viewModel: ProfileViewModel
     lateinit var user: User
     lateinit var binding: FragmentProfileBinding
 
@@ -37,7 +37,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         this.binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
-        this.viewModel = (activity as MainActivity).getMainViewModel()
+        this.viewModel = (activity as MainActivity).getProfileViewModel()
         this.subscriber()
         this.user = viewModel.getUser()
         return binding.root
@@ -94,6 +94,7 @@ class ProfileFragment : Fragment() {
                     editTextPassword.text.toString()
                 )
                 messageBoxInstance.hide()
+                (activity as MainActivity).saveState()
             }
         }
     }

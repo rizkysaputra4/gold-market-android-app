@@ -1,5 +1,6 @@
 package com.training.intro.repository
 
+import com.google.gson.Gson
 import com.training.intro.model.*
 import java.time.LocalDateTime
 import java.util.*
@@ -58,6 +59,12 @@ class PocketRepositoryImpl: PocketRepository {
     override fun addTransaction(transactionType: TransactionType, productPrice: Double, pocketName: String, pocketType: PocketType, qty: Double) {
         transactions.add(Transaction(transactions.size, Calendar.getInstance().time, transactionType,
             pocketName, productPrice, pocketType, qty))
+    }
+
+    fun setDataState(pocketRepositoryImpl: PocketRepositoryImpl) {
+        this.products = pocketRepositoryImpl.products
+        this.pockets = pocketRepositoryImpl.pockets
+        this.transactions = pocketRepositoryImpl.transactions
     }
 
 }

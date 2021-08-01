@@ -5,7 +5,7 @@ import com.training.intro.model.User
 class UserRepository {
 
     var users = arrayListOf(User(1, "boymen", "boy@mail.com", "boymen"))
-    lateinit var currentUser: User
+    var currentUser: User = User(1, "boymen", "boy@mail.com", "boymen")
 
     fun checkIfUserNameAndPasswordMatch(user: User): Boolean {
         return users.stream().filter { userData ->
@@ -31,6 +31,11 @@ class UserRepository {
             return@filterIndexed false
         }
             .firstOrNull()
+    }
+
+    fun setDataState(userRepository: UserRepository) {
+        this.currentUser = userRepository.currentUser
+        this.users = userRepository.users
     }
 
     fun getUserById(id: Int): User {

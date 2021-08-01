@@ -41,6 +41,7 @@ class CreatePocketFragment : Fragment() {
         btnAddPocket.setOnClickListener {
             viewModel.addNewPocket(textPocketName.text.toString(), this.selectedPocketType)
             activity?.onBackPressed()
+            (activity as MainActivity).setDataState()
         }
     }
 

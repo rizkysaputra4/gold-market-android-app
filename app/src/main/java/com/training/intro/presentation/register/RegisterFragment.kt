@@ -48,5 +48,6 @@ class RegisterFragment : Fragment() {
     fun onClickRegister(view: View, userName: String, email: String, password: String) {
         viewModel.register(userName, email, password)
         Navigation.findNavController(view).navigate(R.id.action_register_to_login)
+        (activity as MainActivity).saveState()
     }
 }
