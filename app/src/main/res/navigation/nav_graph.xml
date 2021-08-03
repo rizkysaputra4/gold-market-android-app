@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreen"
-        android:name="com.training.intro.presentation.SplashFragment"
+        android:name="com.training.goldmarket.presentation.welcome.SplashFragment"
         android:label="activity_splash_screen"
         tools:layout="@layout/activity_splash_screen" >
         <action
@@ -15,12 +15,17 @@
             app:destination="@id/welcomePage"
             app:popUpTo="@id/splashScreen"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreen_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/login"
-        android:name="com.training.intro.presentation.login.LoginFragment"
+        android:name="com.training.goldmarket.presentation.login.LoginFragment"
         android:label="activity_login"
-        tools:layout="@layout/activity_login" >
+        tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_login_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -32,9 +37,9 @@
     </fragment>
     <fragment
         android:id="@+id/register"
-        android:name="com.training.intro.presentation.register.RegisterFragment"
+        android:name="com.training.goldmarket.presentation.register.RegisterFragment"
         android:label="activity_register"
-        tools:layout="@layout/activity_register" >
+        tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_register_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -46,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomePage"
-        android:name="com.training.intro.presentation.WelcomeFragment"
+        android:name="com.training.goldmarket.presentation.welcome.WelcomeFragment"
         android:label="activity_welcome_page"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -58,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.training.intro.presentation.home.HomeFragment"
+        android:name="com.training.goldmarket.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -70,12 +75,12 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.training.intro.presentation.history.HistoryFragment"
+        android:name="com.training.goldmarket.presentation.history.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.training.intro.presentation.profile.ProfileFragment"
+        android:name="com.training.goldmarket.presentation.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -86,12 +91,12 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.training.intro.presentation.MainActivity"
+        android:name="com.training.goldmarket.presentation.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/createPocketFragment"
-        android:name="com.training.intro.presentation.home.createpocket.CreatePocketFragment"
+        android:name="com.training.goldmarket.presentation.home.createpocket.CreatePocketFragment"
         android:label="fragment_create_pocket"
         tools:layout="@layout/fragment_create_pocket" />
 </navigation>
