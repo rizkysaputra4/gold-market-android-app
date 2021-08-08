@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:backgroundTint="#FBFCFF"
-    android:background="#FBFCFF"
-    android:layout_height="match_parent"
-    tools:context=".presentation.home.HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewmodel"
+            type="com.training.goldmarket.presentation.home.HomeViewModel"
+            />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:backgroundTint="#FBFCFF"
+        android:background="#FBFCFF"
+        tools:context=".presentation.home.HomeFragment"
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
@@ -50,6 +56,7 @@
                             android:layout_marginStart="30dp"
                             android:layout_marginEnd="30dp"
                             android:layout_marginBottom="40dp"
+                            android:onClick="@{()->viewmodel.onClickBuyPocketProduct()}"
                             android:text="Beli Emas"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +86,7 @@
                             android:text="Rp. 870.000"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            app:currencyID="@{viewmodel.pocketLiveData.product.priceBuy}"
                             app:layout_constraintBottom_toTopOf="@+id/btnBuyProduct"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -111,6 +119,7 @@
                             android:layout_marginEnd="30dp"
                             android:layout_marginBottom="40dp"
                             android:text="Jual Emas"
+                            android:onClick="@{()->viewmodel.onClickSellPocketProduct()}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -139,6 +148,7 @@
                             android:text="Rp. 900.000"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            app:currencyID="@{viewmodel.pocketLiveData.product.priceSell}"
                             app:layout_constraintBottom_toTopOf="@+id/btnSellProduct"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -156,6 +166,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
+            android:onClick="@{()->viewmodel.onClickPocketNavigate()}"
             app:cardBackgroundColor="#6379F4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +184,7 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="128dp"
-                    android:text="Emas murni bersama"
+                    android:text="@{`Pocket ` + viewmodel.pocketLiveData.name}"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -186,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Total pocket kamu ada 2"
+                    android:text="@{`Total pocket kamu ` + viewmodel.getAllPocket().size()}"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="@+id/viewPocketGram"
                     app:layout_constraintTop_toBottomOf="@+id/viewPocketTotalPrice" />
@@ -197,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="100 gram"
+                    android:text="@{viewmodel.pocketLiveData.qty+ ` gram`}"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="@+id/viewPocketTotalPrice"
                     app:layout_constraintTop_toBottomOf="@+id/viewPocketTitle" />
@@ -211,6 +222,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="34sp"
                     android:textStyle="bold"
+                    app:currencyID="@{viewmodel.pocketLiveData.product.priceSell * viewmodel.pocketLiveData.qty}"
                     app:layout_constraintStart_toStartOf="@+id/viewPocketTitle"
                     app:layout_constraintTop_toBottomOf="@+id/viewPocketGram" />
 
@@ -240,9 +252,11 @@
             android:layout_marginTop="30dp"
             android:background="@xml/btn_gray"
             android:text="Buat Pocket"
+            android:onClick="@{()->viewmodel.onClickCreatePocket()}"
             app:layout_constraintEnd_toStartOf="@+id/btnChangePocket"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewPocketInfo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+</layout>

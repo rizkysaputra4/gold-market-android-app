@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import com.squareup.picasso.Picasso
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentProfileBinding
 import com.training.goldmarket.model.User
@@ -32,8 +35,15 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        this.binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewmodel = (activity as MainActivity).getProfileViewModel()
+        }
+
         this.viewModel = (activity as MainActivity).getProfileViewModel()
+        this.viewModel.view = this
         this.subscriber()
         this.user = viewModel.getUser()
         return binding.root
@@ -41,7 +51,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.registerBtnListener(view)
         this.setView()
     }
 
@@ -49,13 +58,10 @@ class ProfileFragment : Fragment() {
         binding.apply {
             textViewUserName.text = user.userName
             textViewEmail.text = user.email
+            Picasso.with(this@ProfileFragment.context)
+                .load("https://accounts-cdn.9gag.com/media/avatar/27135224_100_21.jpg")
+                .into(imageViewProfile)
         }
-    }
-
-    fun registerBtnListener(view: View) {
-        btnProfileDetail.setOnClickListener { println("Profile detail") }
-        btnEditProfile.setOnClickListener { modalEditProfile() }
-        btnLogout.setOnClickListener { logout(view) }
     }
 
     fun subscriber() {
@@ -69,6 +75,7 @@ class ProfileFragment : Fragment() {
     }
 
     fun logout(view: View) {
+
         Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_login)
         (activity as MainActivity).clearDataState()
     }

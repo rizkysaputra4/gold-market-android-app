@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentLoginBinding
 import com.training.goldmarket.presentation.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginFragment : Fragment() {
 
@@ -32,7 +33,7 @@ class LoginFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = (activity as MainActivity).getLoginViewModel()
         }
-
+        this.hideBottomNav()
         return binding.root
     }
 
@@ -51,5 +52,10 @@ class LoginFragment : Fragment() {
 
     fun showErrorToast() {
         Toast.makeText(activity, "Username or password not match", Toast.LENGTH_LONG).show()
+    }
+
+    fun hideBottomNav() {
+        (activity as MainActivity).supportActionBar?.hide()
+        (activity as MainActivity).bottomNavigationView.visibility = View.GONE
     }
 }

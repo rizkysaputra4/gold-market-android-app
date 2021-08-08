@@ -12,8 +12,10 @@ import com.training.goldmarket.utils.EventResult
 
 class HomeViewModel(val repository: PocketRepository):ViewModel() {
 
-    private var _pocketData = MutableLiveData<EventResult>()
-    val pocketLiveData: LiveData<EventResult>
+    lateinit var view: HomeFragment
+    var currentPocket = Pocket(1, "GoldPocket", Product(1, PocketType.Gold, 880000.0, 860000.0), 0.0)
+    private var _pocketData = MutableLiveData<Pocket>()
+    val pocketLiveData: LiveData<Pocket>
         get() {return _pocketData}
 
     fun addNewPocket(name: String, type: String) {
@@ -24,15 +26,15 @@ class HomeViewModel(val repository: PocketRepository):ViewModel() {
             "platinum" -> pocketType = PocketType.Platinum
         }
 
-        _pocketData.value = EventResult.Success(repository.insertNewPocket(name, pocketType))
+        _pocketData.value = repository.insertNewPocket(name, pocketType)
     }
 
     fun setPocketData(pocket: Pocket) {
-        _pocketData.value = EventResult.Success(pocket)
+        _pocketData.value = pocket
     }
 
     fun setPocketDataById(id: Int) {
-        _pocketData.value = EventResult.Success(repository.getPocketById(id))
+        _pocketData.value = repository.getPocketById(id)
     }
 
     fun getAllPocket(): List<Pocket> {
@@ -40,32 +42,31 @@ class HomeViewModel(val repository: PocketRepository):ViewModel() {
     }
 
     fun sellPocket(gram: Double) {
-        var pocket: Pocket? = null
-        when(_pocketData.value) {
-            is EventResult.Success -> {
-                pocket = (_pocketData.value as EventResult.Success).data as Pocket
-                pocket.qty = pocket.qty - gram
-                repository.updatePocket(pocket)
-                _pocketData.value = EventResult.Success(pocket)
-                repository.addTransaction(TransactionType.Sell, pocket.product.priceSell,
-                    pocket.name, pocket.product.type, gram)
-            }
-        }
+
+        var pocket = _pocketData.value as Pocket
+        pocket.qty = pocket.qty - gram
+        repository.updatePocket(pocket)
+        _pocketData.value = pocket
+        repository.addTransaction(TransactionType.Sell, pocket.product.priceSell,
+            pocket.name, pocket.product.type, gram)
     }
 
     fun buyPocket(gram: Double) {
-        var pocket: Pocket? = null
-        when(_pocketData.value) {
-            is EventResult.Success -> {
-                pocket = (_pocketData.value as EventResult.Success).data as Pocket
-                pocket.qty = pocket.qty + gram
-                repository.updatePocket(pocket)
-                _pocketData.value = EventResult.Success(pocket)
-                repository.addTransaction(TransactionType.Buy, pocket.product.priceBuy,
-                    pocket.name, pocket.product.type, gram)
-            }
-        }
+        var pocket = _pocketData.value as Pocket
+        pocket.qty = pocket.qty + gram
+        repository.updatePocket(pocket)
+        _pocketData.value = pocket
+        repository.addTransaction(TransactionType.Buy, pocket.product.priceBuy,
+            pocket.name, pocket.product.type, gram)
     }
+
+    fun onClickBuyPocketProduct() { view.buyPocketProduct() }
+
+    fun onClickSellPocketProduct() { view.sellPocketProduct() }
+
+    fun onClickCreatePocket() { view.createPocketBox() }
+
+    fun onClickPocketNavigate() { view.showPocketModalNavigator() }
 
     fun getPocketById(id: Int): Pocket {
         return repository.getPocketById(id)

@@ -29,6 +29,7 @@ class MainViewModel(private val userRepository: UserRepository,
         val editor = userPreferences.edit()
         editor.clear().remove(USER_KEY)
         editor.clear().remove(POCKET_KEY)
+        userRepository.currentUser = null
         editor.commit()
     }
 

@@ -31,7 +31,6 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
     lateinit var selectedPocketType: String
     lateinit var viewModel: HomeViewModel
     lateinit var binding: FragmentHomeBinding
-    lateinit var currentPocket: Pocket
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +41,15 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewmodel = (activity as MainActivity).getCreatePocketViewModel()
+        }
         viewModel = (activity as MainActivity).getCreatePocketViewModel()
         viewModel.setPocketDataById(1)
+        viewModel.view = this
         this.subscriber()
         return binding.root
     }
@@ -53,14 +58,6 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).showBottomNav()
         (activity as MainActivity)?.supportActionBar?.show()
-        registerBtnListener(view)
-    }
-
-    fun registerBtnListener(view: View) {
-        btnCreatePocket.setOnClickListener { showMessageBox() }
-        cardViewPocketInfo.setOnClickListener { this.showPocketModalNavigator() }
-        btnSellProduct.setOnClickListener { this.sellPocketProduct() }
-        btnBuyProduct.setOnClickListener { this.buyPocketProduct() }
     }
 
     fun spinnerRegister(view: View) {
@@ -77,7 +74,7 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         }
     }
 
-    fun showMessageBox(){
+    fun createPocketBox(){
         val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.fragment_create_pocket, null)
         val messageBoxBuilder = AlertDialog.Builder(activity).setView(messageBoxView)
         val  messageBoxInstance = messageBoxBuilder.show()
@@ -138,37 +135,15 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
 
     fun subscriber() {
         binding.apply {
-            var pocketObserver = Observer<EventResult> { event ->
-                when (event) {
-                    is EventResult.Success -> {
-                        this@HomeFragment.currentPocket = event.data as Pocket
-                        this@HomeFragment.setView()
-                    }
-                    else -> EventResult.Idle
+            var pocketObserver = Observer<Pocket> { event ->
+                        this@HomeFragment.viewModel.currentPocket = event
                 }
-            }
             viewModel.pocketLiveData.observe(viewLifecycleOwner, pocketObserver)
         }
     }
 
     override fun onClickPocketItem(pocket: Pocket) {
         viewModel.setPocketData(pocket)
-    }
-
-    fun setView() {
-        val formatter: NumberFormat = DecimalFormat("'Rp.' #,###',00'")
-        val priceSell: Double = currentPocket.product.priceSell
-        val totalPrice: Double = currentPocket.qty
-        binding.apply {
-            viewPocketTitle.text = "Pocket " + currentPocket.name.uppercase()
-            viewPocketTotalPrice.text = formatter.format((priceSell*totalPrice))
-            viewPocketGram.text = (currentPocket.qty).toString() + " gram " + currentPocket.product.type.toString().lowercase()
-            viewTotalPocket.text = "Total pocket kamu " + viewModel.getAllPocket().size.toString()
-            btnBuyProduct.text = "buy " + currentPocket.product.type.toString()
-            btnSellProduct.text = "sell " + currentPocket.product.type.toString()
-            viewTextBuyProduct.text = formatter.format(currentPocket.product.priceBuy)
-            viewTextSellProduct.text = formatter.format(currentPocket.product.priceSell)
-        }
     }
 
 }
