@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.training.goldmarket.databinding.ModalPocketListItemViewBinding
-import com.training.goldmarket.model.Pocket
+import com.training.goldmarket.data.entity.Pocket
 
 class PocketNavigationAdapter(private val delegate: PocketNavigationInterface,
                               private val viewModel: HomeViewModel):
     RecyclerView.Adapter<PocketNavigationAdapter.PocketViewHolder>() {
 
-    val pocket = viewModel.getAllPocket()
+    lateinit var pocket: List<Pocket>
 
     class PocketViewHolder(val binding: ModalPocketListItemViewBinding):
         RecyclerView.ViewHolder(binding.root)

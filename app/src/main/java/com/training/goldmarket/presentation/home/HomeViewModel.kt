@@ -1,22 +1,34 @@
 package com.training.goldmarket.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.training.goldmarket.model.Pocket
-import com.training.goldmarket.model.PocketType
-import com.training.goldmarket.model.Product
-import com.training.goldmarket.model.TransactionType
-import com.training.goldmarket.repository.PocketRepository
-import com.training.goldmarket.utils.EventResult
+import androidx.lifecycle.viewModelScope
+import com.training.goldmarket.data.entity.Pocket
+import com.training.goldmarket.data.entity.PocketType
+import com.training.goldmarket.data.entity.Transaction
+import com.training.goldmarket.data.entity.TransactionType
+import com.training.goldmarket.data.repository.PocketRepository
+import com.training.goldmarket.data.repository.TransactionRepository
+import com.training.goldmarket.data.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.*
 
-class HomeViewModel(val repository: PocketRepository):ViewModel() {
+class HomeViewModel(val pocketRepository: PocketRepository,
+                    val transactionRepository: TransactionRepository,
+                    val userRepository: UserRepository
+                    ):ViewModel() {
 
     lateinit var view: HomeFragment
-    var currentPocket = Pocket(1, "GoldPocket", Product(1, PocketType.Gold, 880000.0, 860000.0), 0.0)
     private var _pocketData = MutableLiveData<Pocket>()
     val pocketLiveData: LiveData<Pocket>
         get() {return _pocketData}
+
+    private var _allPocket = MutableLiveData<List<Pocket>>()
+    val allPocket: LiveData<List<Pocket>>
+        get() { return _allPocket }
 
     fun addNewPocket(name: String, type: String) {
         var pocketType: PocketType = PocketType.Gold
@@ -26,38 +38,70 @@ class HomeViewModel(val repository: PocketRepository):ViewModel() {
             "platinum" -> pocketType = PocketType.Platinum
         }
 
-        _pocketData.value = repository.insertNewPocket(name, pocketType)
+        viewModelScope.launch(Dispatchers.IO) {
+            _pocketData.postValue(pocketRepository.insertNewPocket(name, pocketType))
+        }
     }
 
     fun setPocketData(pocket: Pocket) {
-        _pocketData.value = pocket
+        _pocketData.postValue(pocket)
     }
 
-    fun setPocketDataById(id: Int) {
-        _pocketData.value = repository.getPocketById(id)
-    }
-
-    fun getAllPocket(): List<Pocket> {
-        return repository.getAllPocket()
+    fun loadAllPocket() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _allPocket.postValue(userRepository.currentUser?.let {
+                pocketRepository.getAllPocketByUserId(
+                    it.userId)
+            })
+            try {
+                _pocketData.postValue(_allPocket.value?.get(0))
+            } catch (e: Exception) {
+                Log.e("POCKET DATA", "Index out of bound")
+            }
+            Log.d("POCKET DATA", _pocketData.value.toString())
+        }
     }
 
     fun sellPocket(gram: Double) {
+        viewModelScope.launch(Dispatchers.IO) {
+            var pocket = _pocketData.value as Pocket
+            pocket.qty = pocket.qty - gram
+            pocketRepository.updatePocket(pocket)
+            _pocketData.postValue(pocket)
 
-        var pocket = _pocketData.value as Pocket
-        pocket.qty = pocket.qty - gram
-        repository.updatePocket(pocket)
-        _pocketData.value = pocket
-        repository.addTransaction(TransactionType.Sell, pocket.product.priceSell,
-            pocket.name, pocket.product.type, gram)
+            transactionRepository.addTransaction(
+                Transaction(
+                    date = Calendar.getInstance().time,
+                    type = TransactionType.Sell,
+                    pocketName = pocket.name,
+                    productPrice = pocket.product.priceSell,
+                    qty = gram,
+                    transactionOwnerId = pocket.pocketOwnerId,
+                    productType = pocket.product.type
+                )
+            )
+        }
     }
 
     fun buyPocket(gram: Double) {
-        var pocket = _pocketData.value as Pocket
-        pocket.qty = pocket.qty + gram
-        repository.updatePocket(pocket)
-        _pocketData.value = pocket
-        repository.addTransaction(TransactionType.Buy, pocket.product.priceBuy,
-            pocket.name, pocket.product.type, gram)
+        viewModelScope.launch(Dispatchers.IO) {
+            var pocket = _pocketData.value as Pocket
+            pocket.qty = pocket.qty + gram
+            pocketRepository.updatePocket(pocket)
+            _pocketData.postValue(pocket)
+
+            transactionRepository.addTransaction(
+                Transaction(
+                    date = Calendar.getInstance().time,
+                    type = TransactionType.Buy,
+                    pocketName = pocket.name,
+                    productPrice = pocket.product.priceBuy,
+                    qty = gram,
+                    transactionOwnerId = pocket.pocketOwnerId,
+                    productType = pocket.product.type
+                )
+            )
+        }
     }
 
     fun onClickBuyPocketProduct() { view.buyPocketProduct() }
@@ -68,7 +112,4 @@ class HomeViewModel(val repository: PocketRepository):ViewModel() {
 
     fun onClickPocketNavigate() { view.showPocketModalNavigator() }
 
-    fun getPocketById(id: Int): Pocket {
-        return repository.getPocketById(id)
-    }
 }

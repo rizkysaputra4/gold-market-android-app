@@ -2,6 +2,7 @@ package com.training.goldmarket.presentation.profile
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.squareup.picasso.Picasso
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentProfileBinding
-import com.training.goldmarket.model.User
+import com.training.goldmarket.data.entity.User
 import com.training.goldmarket.presentation.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.modal_edit_user_data.view.*
@@ -56,6 +56,7 @@ class ProfileFragment : Fragment() {
 
     private fun setView() {
         binding.apply {
+            Log.d("INITPROFILEVIE1", user.toString())
             textViewUserName.text = user.userName
             textViewEmail.text = user.email
             Picasso.with(this@ProfileFragment.context)
@@ -91,14 +92,15 @@ class ProfileFragment : Fragment() {
             editTextEmail.setText(user.email)
 
             btnEditUserId.setOnClickListener {
+                Log.d("INITPROFILEVIE2", user.toString())
                 viewModel.editUser(
-                    user.id,
+                    user.userId,
                     editTextUserName.text.toString(),
                     editTextEmail.text.toString(),
                     editTextPassword.text.toString()
                 )
                 messageBoxInstance.hide()
-                (activity as MainActivity).saveState()
+//                (activity as MainActivity).saveState()
             }
         }
     }

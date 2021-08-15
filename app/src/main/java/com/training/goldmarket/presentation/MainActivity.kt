@@ -20,8 +20,8 @@ import com.training.goldmarket.presentation.login.LoginViewModel
 import com.training.goldmarket.presentation.profile.ProfileViewModel
 import com.training.goldmarket.presentation.register.RegisterViewModel
 import com.training.goldmarket.presentation.welcome.WelcomeViewModel
-import com.training.goldmarket.repository.PocketRepositoryImpl
-import com.training.goldmarket.repository.UserRepository
+import com.training.goldmarket.data.repository.PocketRepositoryImpl
+import com.training.goldmarket.data.repository.UserRepository
 import com.training.goldmarket.utils.baseApp
 
 class MainActivity : AppCompatActivity(), MainActivityInterface {
@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        baseApp.initRepository(this)
+
         this.switchFragment(HomeFragment())
         this.setBtnListener()
 
@@ -110,6 +113,4 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     override fun getWelcomeViewModel(): WelcomeViewModel {
         return baseApp.getWelcomeViewModel()
     }
-
-
 }

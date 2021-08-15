@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.training.goldmarket.databinding.TransactionHistoryItemBinding
-import com.training.goldmarket.model.Transaction
+import com.training.goldmarket.data.entity.Transaction
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -15,7 +15,7 @@ class HistoryViewAdapter(private val viewModel: HistoryViewModel):
         class HistoryViewHolder(val binding: TransactionHistoryItemBinding):
                 RecyclerView.ViewHolder(binding.root)
 
-    var transactionHistories: List<Transaction> = viewModel.getAllTransaction()
+    var transactionHistories: List<Transaction> = ArrayList<Transaction>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = TransactionHistoryItemBinding.inflate(

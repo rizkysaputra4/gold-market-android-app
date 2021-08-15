@@ -72,6 +72,13 @@ dependencies {
     //Picasso
     implementation("com.squareup.picasso:picasso:2.5.2")
 
+    //RoomDatabase
+    implementation("androidx.room:room-runtime:2.2.6")
+    kapt("androidx.room:room-compiler:2.2.6")
+
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")

@@ -2,11 +2,12 @@ package com.training.goldmarket.presentation
 
 import android.content.Context
 import com.google.gson.Gson
-import com.training.goldmarket.repository.PocketRepositoryImpl
-import com.training.goldmarket.repository.UserRepository
+import com.training.goldmarket.data.repository.PocketRepository
+import com.training.goldmarket.data.repository.PocketRepositoryImpl
+import com.training.goldmarket.data.repository.UserRepository
 
 class MainViewModel(private val userRepository: UserRepository,
-                    private val pocketRepository: PocketRepositoryImpl
+                    private val pocketRepository: PocketRepository
                     ) {
 
     lateinit var mainActivity: MainActivity
@@ -38,7 +39,7 @@ class MainViewModel(private val userRepository: UserRepository,
     }
 
     fun setPocketRepository(pocketRepository: PocketRepositoryImpl) {
-        this.pocketRepository.setDataState(pocketRepository)
+//        this.pocketRepository.setDataState(pocketRepository)
     }
 
 }

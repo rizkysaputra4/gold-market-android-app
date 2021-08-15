@@ -29,6 +29,8 @@ class HistoryFragment : Fragment() {
         binding = FragmentHistoryBinding.inflate(layoutInflater, container, false)
         viewModel = (activity as MainActivity).getHistoryViewModel()
         historyAdapter = HistoryViewAdapter(viewModel)
+        this.subscriber()
+        viewModel.loadTransactionData()
         this.registerView()
         return binding.root
     }
@@ -40,4 +42,10 @@ class HistoryFragment : Fragment() {
         }
     }
 
+    fun subscriber() {
+        viewModel.transactionLiveData.observe(viewLifecycleOwner, {
+            (recyclerViewHistory.adapter as HistoryViewAdapter).transactionHistories = it
+            recyclerViewHistory.adapter?.notifyDataSetChanged()
+        })
+    }
 }

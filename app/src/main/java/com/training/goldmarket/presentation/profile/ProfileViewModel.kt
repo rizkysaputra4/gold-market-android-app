@@ -2,24 +2,31 @@ package com.training.goldmarket.presentation.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.training.goldmarket.model.User
-import com.training.goldmarket.repository.UserRepository
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.training.goldmarket.data.entity.User
+import com.training.goldmarket.data.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val userRepository: UserRepository) {
+class ProfileViewModel(private val userRepository: UserRepository): ViewModel() {
 
     lateinit var view: ProfileFragment
     var _user = MutableLiveData<User>()
     val userLiveData: LiveData<User>
         get() {return _user}
 
-    fun editUser(id: Int,userName: String, email: String, password: String) {
-        val editedUser = User(id, userName, email, password)
-        userRepository.editUserData(editedUser)
-        this._user.value = editedUser
+    fun editUser(id: String,userName: String, email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val editedUser = User(userId = id, userName = userName, email = email, password = password)
+            userRepository.editUserData(editedUser)
+            _user.postValue(editedUser)
+        }
     }
 
     fun getUser(): User {
-        return userRepository.currentUser?: User(1, "boymen", "boy@mail.com", "boymen")
+        _user.value = userRepository.currentUser?: User("1", "boymen", "boy@mail.com", "boymen")
+        return userRepository.currentUser?: User("1", "boymen", "boy@mail.com", "boymen")
     }
 
     fun onClickEditProfile() {

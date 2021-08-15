@@ -43,6 +43,6 @@ class RegisterFragment : Fragment() {
 
     fun navigateToLogin() {
         this.view?.let { Navigation.findNavController(it).navigate(R.id.action_register_to_login) }
-        (activity as MainActivity).saveState()
+//        (activity as MainActivity).saveState()
     }
 }

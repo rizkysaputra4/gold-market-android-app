@@ -2,6 +2,7 @@ package com.training.goldmarket.presentation.home
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,17 +14,15 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentHomeBinding
-import com.training.goldmarket.model.Pocket
+import com.training.goldmarket.data.entity.Pocket
 import com.training.goldmarket.presentation.MainActivity
-import com.training.goldmarket.utils.EventResult
 import kotlinx.android.synthetic.main.fragment_create_pocket.*
 import kotlinx.android.synthetic.main.fragment_create_pocket.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_pocket_navigator.view.*
 import kotlinx.android.synthetic.main.modal_buy_pocket_product.view.*
 import kotlinx.android.synthetic.main.modal_sell_pocket_product.view.*
-import java.text.DecimalFormat
-import java.text.NumberFormat
+import java.lang.Exception
 
 class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterface {
 
@@ -48,7 +47,7 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
             viewmodel = (activity as MainActivity).getCreatePocketViewModel()
         }
         viewModel = (activity as MainActivity).getCreatePocketViewModel()
-        viewModel.setPocketDataById(1)
+        viewModel.loadAllPocket()
         viewModel.view = this
         this.subscriber()
         return binding.root
@@ -87,7 +86,7 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         messageBoxView.btnAddPocket.setOnClickListener {
             viewModel.addNewPocket(messageBoxView.textPocketName.text.toString(), this.selectedPocketType)
             messageBoxInstance.dismiss()
-            (activity as MainActivity).saveState()
+//            (activity as MainActivity).saveState()
         }
     }
 
@@ -104,6 +103,10 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
                 layoutManager = LinearLayoutManager(messageBoxView.context)
                 adapter = PocketNavigationAdapter(this@HomeFragment, viewModel)
             }
+            viewModel.allPocket.observe(viewLifecycleOwner, {
+                (recycleViewPocketNavigator.adapter as PocketNavigationAdapter).pocket = it
+                recycleViewPocketNavigator.adapter?.notifyDataSetChanged()
+            })
         }
     }
 
@@ -116,7 +119,7 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         messageBoxView.btnSellPocketProduct.setOnClickListener {
             viewModel.sellPocket(messageBoxView.inputNumberSell.text.toString().toDouble())
             messageBoxInstance.dismiss()
-            (activity as MainActivity).saveState()
+//            (activity as MainActivity).saveState()
         }
     }
 
@@ -129,17 +132,20 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         messageBoxView.btnBuyPocketProduct.setOnClickListener {
             viewModel.buyPocket(messageBoxView.inputNumberBuy.text.toString().toDouble())
             messageBoxInstance.dismiss()
-            (activity as MainActivity).saveState()
+//            (activity as MainActivity).saveState()
         }
     }
 
     fun subscriber() {
-        binding.apply {
-            var pocketObserver = Observer<Pocket> { event ->
-                        this@HomeFragment.viewModel.currentPocket = event
-                }
-            viewModel.pocketLiveData.observe(viewLifecycleOwner, pocketObserver)
-        }
+        viewModel.allPocket.observe(viewLifecycleOwner, {
+            Log.d("POCKET ALL", it.toString())
+            try {
+                onClickPocketItem(it[0])
+            } catch (e: Exception) {
+                Log.d("POCKETS", "POCKET OUT OF BOUND")
+            }
+
+        })
     }
 
     override fun onClickPocketItem(pocket: Pocket) {
