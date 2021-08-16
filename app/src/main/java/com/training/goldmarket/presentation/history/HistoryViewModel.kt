@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.training.goldmarket.data.entity.Transaction
-import com.training.goldmarket.data.repository.PocketRepository
 import com.training.goldmarket.data.repository.TransactionRepository
 import com.training.goldmarket.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers

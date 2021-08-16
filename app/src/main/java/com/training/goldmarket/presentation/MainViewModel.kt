@@ -11,5 +11,4 @@ class MainViewModel(private val userRepository: UserRepository,
                     ) {
 
     lateinit var mainActivity: MainActivity
-
 }

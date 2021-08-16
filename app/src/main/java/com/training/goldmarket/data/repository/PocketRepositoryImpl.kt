@@ -30,8 +30,6 @@ class PocketRepositoryImpl(private val pocketDao: PocketDao, private val userRep
         pocketDao.update(pocket)
     }
 
-
-
     override fun insertNewPocket(name: String, type: PocketType): Pocket {
         var newPocket = Pocket( name = name, product = products[0],
             qty =  0.0, pocketOwnerId = userRepository.currentUser?.userId)
@@ -40,8 +38,7 @@ class PocketRepositoryImpl(private val pocketDao: PocketDao, private val userRep
                 newPocket.product = p
                 pockets.add(newPocket)
             }
-            p.type == type
-        }
+            p.type == type }
             .findFirst()
         pocketDao.insert(newPocket)
         return newPocket
@@ -50,11 +47,4 @@ class PocketRepositoryImpl(private val pocketDao: PocketDao, private val userRep
     override fun getAllTransaction(): List<Transaction> {
         return transactions
     }
-
-    fun setDataState(pocketRepositoryImpl: PocketRepositoryImpl) {
-        this.products = pocketRepositoryImpl.products
-        this.pockets = pocketRepositoryImpl.pockets
-        this.transactions = pocketRepositoryImpl.transactions
-    }
-
 }

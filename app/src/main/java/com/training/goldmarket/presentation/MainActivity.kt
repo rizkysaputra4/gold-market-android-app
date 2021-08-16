@@ -1,7 +1,5 @@
 package com.training.goldmarket.presentation
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,7 +8,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.gson.Gson
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.ActivityMainBinding
 import com.training.goldmarket.presentation.history.HistoryViewModel
@@ -20,8 +17,6 @@ import com.training.goldmarket.presentation.login.LoginViewModel
 import com.training.goldmarket.presentation.profile.ProfileViewModel
 import com.training.goldmarket.presentation.register.RegisterViewModel
 import com.training.goldmarket.presentation.welcome.WelcomeViewModel
-import com.training.goldmarket.data.repository.PocketRepositoryImpl
-import com.training.goldmarket.data.repository.UserRepository
 import com.training.goldmarket.utils.baseApp
 
 class MainActivity : AppCompatActivity(), MainActivityInterface {
@@ -37,9 +32,6 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
 
         baseApp.initRepository(this)
 
-        this.switchFragment(HomeFragment())
-        this.setBtnListener()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.viewFragment) as NavHostFragment
@@ -49,16 +41,6 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
         this.hideBottomNav()
         binding.bottomNavigationView.setupWithNavController(navController)
     }
-
-    fun setBtnListener() {
-
-    }
-
-    fun switchFragment(fragment: Fragment) {
-
-    }
-
-    fun getMainViewModel(): MainViewModel { return this.viewModel}
 
     fun hideBottomNav() {
         binding.bottomNavigationView.visibility = View.GONE

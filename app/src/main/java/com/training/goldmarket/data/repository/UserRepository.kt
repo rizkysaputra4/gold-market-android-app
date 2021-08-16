@@ -29,16 +29,6 @@ class UserRepository(private val userDao: UserDao) {
         Log.d("USERS", userDao.getAllUser().toString())
     }
 
-    fun setUserStateByUserId(userId: String) {
-
-    }
-
-    fun setDataState(userRepository: UserRepository) {
-//        var users = userDao.getAllUser()
-//        this.currentUser = userRepository.currentUser
-//        this.users = userRepository.users
-    }
-
     fun getUserById(id: String): User {
         return userDao.getAllUser()[0]
     }
