@@ -50,15 +50,14 @@ class HomeViewModel(val pocketRepository: PocketRepository,
     fun loadAllPocket() {
         viewModelScope.launch(Dispatchers.IO) {
             _allPocket.postValue(userRepository.currentUser?.let {
-                pocketRepository.getAllPocketByUserId(
-                    it.userId)
+                pocketRepository.getAllPocketByUserId(it.userId)
             })
-            try {
-                _pocketData.postValue(_allPocket.value?.get(0))
-            } catch (e: Exception) {
-                Log.e("POCKET DATA", "Index out of bound")
-            }
-            Log.d("POCKET DATA", _pocketData.value.toString())
+//            try {
+//                _pocketData.postValue(_allPocket.value?.get(0))
+//            } catch (e: Exception) {
+//                Log.e("POCKET DATA", "Index out of bound")
+//            }
+//            Log.d("POCKET DATA", _pocketData.value.toString())
         }
     }
 

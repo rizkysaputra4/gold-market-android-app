@@ -10,7 +10,7 @@ class PocketNavigationAdapter(private val delegate: PocketNavigationInterface,
                               private val viewModel: HomeViewModel):
     RecyclerView.Adapter<PocketNavigationAdapter.PocketViewHolder>() {
 
-    lateinit var pocket: List<Pocket>
+    var pocket: List<Pocket> = arrayListOf()
 
     class PocketViewHolder(val binding: ModalPocketListItemViewBinding):
         RecyclerView.ViewHolder(binding.root)

@@ -9,10 +9,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.training.goldmarket.R
-import com.training.goldmarket.data.entity.Pocket
 import com.training.goldmarket.databinding.FragmentLoginBinding
 import com.training.goldmarket.presentation.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*

@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.training.goldmarket.data.entity.User
+import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.data.repository.UserRepository
+import com.training.goldmarket.utils.AppConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val userRepository: UserRepository): ViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository,
+                        private val sharedPref: SharedPreference
+                       ): ViewModel() {
 
     lateinit var view: ProfileFragment
     var _user = MutableLiveData<User>()
@@ -34,6 +38,8 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
     }
 
     fun onClickLogout() {
+        sharedPref.clearData(AppConstant.CURRENT_USER)
+        userRepository.currentUser = null
         view.view?.let { view.logout(it) }
     }
 }

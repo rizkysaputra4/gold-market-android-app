@@ -47,29 +47,7 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
         viewModel = baseApp.getMainViewModel()
         viewModel.mainActivity = this
         this.hideBottomNav()
-        this.setDataState()
         binding.bottomNavigationView.setupWithNavController(navController)
-    }
-
-    fun saveState() { viewModel.saveToLocal() }
-
-    fun clearDataState() { viewModel.clearData() }
-
-    fun setDataState() {
-        var gson = Gson()
-        val userPreferences: SharedPreferences? = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        if (userPreferences != null) {
-            val userJson = userPreferences.getString("user", "isEmpty")
-            val pocketJson = userPreferences.getString("pocket", "isEmpty")
-            if (userJson != null && !userJson.contains("isEmpty")) {
-                val user: UserRepository = gson.fromJson(userJson, UserRepository::class.java)
-                this.viewModel.setUserRepository(user)
-            }
-            if (pocketJson != null &&!pocketJson.contains("isEmpty")) {
-                val pocket: PocketRepositoryImpl = gson.fromJson(pocketJson, PocketRepositoryImpl::class.java)
-                this.viewModel.setPocketRepository(pocket)
-            }
-        }
     }
 
     fun setBtnListener() {

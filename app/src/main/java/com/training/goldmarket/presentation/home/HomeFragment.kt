@@ -104,8 +104,10 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
                 adapter = PocketNavigationAdapter(this@HomeFragment, viewModel)
             }
             viewModel.allPocket.observe(viewLifecycleOwner, {
-                (recycleViewPocketNavigator.adapter as PocketNavigationAdapter).pocket = it
-                recycleViewPocketNavigator.adapter?.notifyDataSetChanged()
+                it?.let {
+                    (recycleViewPocketNavigator.adapter as PocketNavigationAdapter).pocket = it
+                    recycleViewPocketNavigator.adapter?.notifyDataSetChanged()
+                }
             })
         }
     }
@@ -138,13 +140,11 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
 
     fun subscriber() {
         viewModel.allPocket.observe(viewLifecycleOwner, {
-            Log.d("POCKET ALL", it.toString())
             try {
                 onClickPocketItem(it[0])
             } catch (e: Exception) {
                 Log.d("POCKETS", "POCKET OUT OF BOUND")
             }
-
         })
     }
 

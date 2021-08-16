@@ -41,7 +41,6 @@ class CreatePocketFragment : Fragment() {
         btnAddPocket.setOnClickListener {
             viewModel.addNewPocket(textPocketName.text.toString(), this.selectedPocketType)
             activity?.onBackPressed()
-            (activity as MainActivity).setDataState()
         }
     }
 
@@ -56,7 +55,6 @@ class CreatePocketFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val type = parent?.getItemAtPosition(position).toString()
                 selectedPocketType = type
-                println(selectedPocketType)
             }
         }
     }

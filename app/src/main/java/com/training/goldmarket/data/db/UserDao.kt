@@ -11,4 +11,7 @@ interface UserDao: BaseDao<User> {
     @Query("SELECT * FROM ${AppConstant.USER_TABLE}")
     fun getAllUser(): List<User>
 
+    @Query("SELECT * FROM ${AppConstant.USER_TABLE} WHERE userId=:userId")
+    fun getUserByUserId(userId: String): User
+
 }

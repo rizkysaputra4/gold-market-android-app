@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentProfileBinding
 import com.training.goldmarket.data.entity.User
+import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.presentation.MainActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.modal_edit_user_data.view.*
@@ -76,9 +77,8 @@ class ProfileFragment : Fragment() {
     }
 
     fun logout(view: View) {
-
         Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_login)
-        (activity as MainActivity).clearDataState()
+//        (activity as MainActivity).clearDataState()
     }
 
     fun modalEditProfile(){

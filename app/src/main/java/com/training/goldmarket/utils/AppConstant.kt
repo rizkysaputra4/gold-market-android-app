@@ -7,5 +7,7 @@ class AppConstant {
         const val POCKET_TABLE = "pocket"
         const val TRANSACTION_TABLE = "m_transaction"
         const val POCKET_LIST_TABLE = "pocket_list"
+
+        const val CURRENT_USER = "current_user"
     }
 }
