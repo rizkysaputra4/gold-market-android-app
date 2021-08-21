@@ -27,8 +27,6 @@ class RegisterFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-//        viewModel = (activity as MainActivity).getRegisterViewModel()
         viewModel.view = this
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
         binding.apply {
@@ -41,11 +39,9 @@ class RegisterFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        this.viewModel = (activity as MainActivity).getRegisterViewModel()
     }
 
     fun navigateToLogin() {
         this.view?.let { Navigation.findNavController(it).navigate(R.id.action_register_to_login) }
-//        (activity as MainActivity).saveState()
     }
 }

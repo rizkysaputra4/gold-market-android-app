@@ -58,7 +58,6 @@ class LoginFragment : DaggerFragment() {
 
     fun navigateToHome() {
         findNavController().navigate(R.id.action_login_to_homeFragment)
-//        (activity as MainActivity).saveState()
     }
 
     fun showErrorToast() {

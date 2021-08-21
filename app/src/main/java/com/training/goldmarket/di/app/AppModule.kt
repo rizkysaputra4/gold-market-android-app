@@ -1,15 +1,5 @@
 package com.training.goldmarket.di.app
 
-import android.app.Application
-import androidx.room.Room
-import androidx.room.Transaction
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
-import com.training.goldmarket.data.db.AppDatabase
-import com.training.goldmarket.data.db.PocketDao
-import com.training.goldmarket.data.db.TransactionDao
-import com.training.goldmarket.data.db.UserDao
-import com.training.goldmarket.data.preference.SharedPreference
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

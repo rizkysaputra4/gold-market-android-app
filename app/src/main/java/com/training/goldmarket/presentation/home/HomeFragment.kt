@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentHomeBinding
@@ -49,7 +48,6 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
             lifecycleOwner = viewLifecycleOwner
             viewmodel = viewModel
         }
-//        viewModel = (activity as MainActivity).getCreatePocketViewModel()
         viewModel.loadAllPocket()
         viewModel.view = this
         this.subscriber()
@@ -89,7 +87,6 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
         messageBoxView.btnAddPocket.setOnClickListener {
             viewModel.addNewPocket(messageBoxView.textPocketName.text.toString(), this.selectedPocketType)
             messageBoxInstance.dismiss()
-//            (activity as MainActivity).saveState()
         }
     }
 
@@ -124,7 +121,6 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
         messageBoxView.btnSellPocketProduct.setOnClickListener {
             viewModel.sellPocket(messageBoxView.inputNumberSell.text.toString().toDouble())
             messageBoxInstance.dismiss()
-//            (activity as MainActivity).saveState()
         }
     }
 
@@ -137,7 +133,6 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
         messageBoxView.btnBuyPocketProduct.setOnClickListener {
             viewModel.buyPocket(messageBoxView.inputNumberBuy.text.toString().toDouble())
             messageBoxInstance.dismiss()
-//            (activity as MainActivity).saveState()
         }
     }
 

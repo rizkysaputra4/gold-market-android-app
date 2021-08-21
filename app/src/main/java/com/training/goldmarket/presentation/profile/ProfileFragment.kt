@@ -45,8 +45,6 @@ class ProfileFragment : DaggerFragment() {
             lifecycleOwner = viewLifecycleOwner
             viewmodel = viewModel
         }
-
-//        this.viewModel = (activity as MainActivity).getProfileViewModel()
         this.viewModel.view = this
         this.subscriber()
         this.user = viewModel.getUser()
@@ -81,7 +79,6 @@ class ProfileFragment : DaggerFragment() {
 
     fun logout(view: View) {
         Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_login)
-//        (activity as MainActivity).clearDataState()
     }
 
     fun modalEditProfile(){
@@ -103,7 +100,6 @@ class ProfileFragment : DaggerFragment() {
                     editTextPassword.text.toString()
                 )
                 messageBoxInstance.hide()
-//                (activity as MainActivity).saveState()
             }
         }
     }

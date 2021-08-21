@@ -1,7 +1,6 @@
 package com.training.goldmarket.data.db
 
 import androidx.room.TypeConverter
-import com.training.goldmarket.data.entity.Pocket
 import com.training.goldmarket.data.entity.PocketType
 import com.training.goldmarket.data.entity.TransactionType
 import java.util.*

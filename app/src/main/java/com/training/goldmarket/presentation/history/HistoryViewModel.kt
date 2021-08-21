@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.training.goldmarket.data.entity.Transaction
 import com.training.goldmarket.data.repository.TransactionRepository
-import com.training.goldmarket.data.repository.TransactionRepositoryImpl
 import com.training.goldmarket.data.repository.UserRepository
-import com.training.goldmarket.data.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

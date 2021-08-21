@@ -28,8 +28,6 @@ class SplashFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-//        viewModel = (activity as MainActivity).getWelcomeViewModel()
-
         return inflater.inflate(R.layout.activity_splash_screen, container, false)
     }
 
