@@ -1,14 +1,14 @@
 package com.training.goldmarket.presentation
 
-import android.content.Context
-import com.google.gson.Gson
+import androidx.lifecycle.ViewModel
 import com.training.goldmarket.data.repository.PocketRepository
-import com.training.goldmarket.data.repository.PocketRepositoryImpl
 import com.training.goldmarket.data.repository.UserRepository
+import com.training.goldmarket.data.repository.UserRepositoryImpl
+import javax.inject.Inject
 
-class MainViewModel(private val userRepository: UserRepository,
-                    private val pocketRepository: PocketRepository
-                    ) {
+class MainViewModel @Inject constructor(private val userRepositoryImpl: UserRepository,
+                                        private val pocketRepository: PocketRepository
+                    ): ViewModel() {
 
     lateinit var mainActivity: MainActivity
 }

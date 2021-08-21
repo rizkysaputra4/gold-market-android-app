@@ -9,7 +9,7 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
-class HistoryViewAdapter(private val viewModel: HistoryViewModel):
+class HistoryViewAdapter():
     RecyclerView.Adapter<HistoryViewAdapter.HistoryViewHolder>() {
 
         class HistoryViewHolder(val binding: TransactionHistoryItemBinding):

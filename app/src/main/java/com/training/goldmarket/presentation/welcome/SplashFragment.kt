@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.training.goldmarket.R
 import com.training.goldmarket.presentation.MainActivity
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
-class SplashFragment : Fragment() {
+class SplashFragment : DaggerFragment() {
 
+    @Inject
     lateinit var viewModel: WelcomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +28,7 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = (activity as MainActivity).getWelcomeViewModel()
+//        viewModel = (activity as MainActivity).getWelcomeViewModel()
 
         return inflater.inflate(R.layout.activity_splash_screen, container, false)
     }

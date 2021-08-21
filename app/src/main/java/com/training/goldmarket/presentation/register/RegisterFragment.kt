@@ -10,9 +10,12 @@ import androidx.navigation.Navigation
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentRegisterBinding
 import com.training.goldmarket.presentation.MainActivity
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : DaggerFragment() {
 
+    @Inject
     lateinit var viewModel: RegisterViewModel
     lateinit var binding: FragmentRegisterBinding
 
@@ -25,7 +28,7 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = (activity as MainActivity).getRegisterViewModel()
+//        viewModel = (activity as MainActivity).getRegisterViewModel()
         viewModel.view = this
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
         binding.apply {
@@ -38,7 +41,7 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.viewModel = (activity as MainActivity).getRegisterViewModel()
+//        this.viewModel = (activity as MainActivity).getRegisterViewModel()
     }
 
     fun navigateToLogin() {

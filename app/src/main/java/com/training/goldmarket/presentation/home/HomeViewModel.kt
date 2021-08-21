@@ -9,16 +9,15 @@ import com.training.goldmarket.data.entity.Pocket
 import com.training.goldmarket.data.entity.PocketType
 import com.training.goldmarket.data.entity.Transaction
 import com.training.goldmarket.data.entity.TransactionType
-import com.training.goldmarket.data.repository.PocketRepository
-import com.training.goldmarket.data.repository.TransactionRepository
-import com.training.goldmarket.data.repository.UserRepository
+import com.training.goldmarket.data.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class HomeViewModel(val pocketRepository: PocketRepository,
-                    val transactionRepository: TransactionRepository,
-                    val userRepository: UserRepository
+class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
+                    val transactionRepositoryImpl: TransactionRepository,
+                    val userRepositoryImpl: UserRepository
                     ):ViewModel() {
 
     lateinit var view: HomeFragment
@@ -39,7 +38,9 @@ class HomeViewModel(val pocketRepository: PocketRepository,
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            _pocketData.postValue(pocketRepository.insertNewPocket(name, pocketType))
+            val APOCKET = pocketRepository.insertNewPocket(name, pocketType)
+            setPocketData(APOCKET)
+            Log.d("POCKET", APOCKET.toString())
             loadAllPocket()
         }
     }
@@ -50,7 +51,8 @@ class HomeViewModel(val pocketRepository: PocketRepository,
 
     fun loadAllPocket() {
         viewModelScope.launch(Dispatchers.IO) {
-            _allPocket.postValue(userRepository.currentUser?.let {
+            Log.d("USERREPO", userRepositoryImpl.hashCode().toString())
+            _allPocket.postValue(userRepositoryImpl.currentUser?.let {
                 pocketRepository.getAllPocketByUserId(it.userId)
             })
             try {
@@ -59,6 +61,7 @@ class HomeViewModel(val pocketRepository: PocketRepository,
                 Log.e("POCKET DATA", "Index out of bound")
             }
             Log.d("POCKET DATA", _pocketData.value.toString())
+            Log.d("USER", userRepositoryImpl.currentUser.toString())
         }
     }
 
@@ -69,7 +72,7 @@ class HomeViewModel(val pocketRepository: PocketRepository,
             pocketRepository.updatePocket(pocket)
             _pocketData.postValue(pocket)
 
-            transactionRepository.addTransaction(
+            transactionRepositoryImpl.addTransaction(
                 Transaction(
                     date = Calendar.getInstance().time,
                     type = TransactionType.Sell,
@@ -90,7 +93,7 @@ class HomeViewModel(val pocketRepository: PocketRepository,
             pocketRepository.updatePocket(pocket)
             _pocketData.postValue(pocket)
 
-            transactionRepository.addTransaction(
+            transactionRepositoryImpl.addTransaction(
                 Transaction(
                     date = Calendar.getInstance().time,
                     type = TransactionType.Buy,
@@ -104,9 +107,21 @@ class HomeViewModel(val pocketRepository: PocketRepository,
         }
     }
 
-    fun onClickBuyPocketProduct() { view.buyPocketProduct() }
+    fun onClickBuyPocketProduct() {
+        if (_pocketData.value != null) {
+            view.buyPocketProduct()
+        } else {
+            view.showErrorToast("Create Pocket First")
+        }
+    }
 
-    fun onClickSellPocketProduct() { view.sellPocketProduct() }
+    fun onClickSellPocketProduct() {
+        if (_pocketData.value != null) {
+            view.sellPocketProduct()
+        } else {
+            view.showErrorToast("Create Pocket First")
+        }
+    }
 
     fun onClickCreatePocket() { view.createPocketBox() }
 

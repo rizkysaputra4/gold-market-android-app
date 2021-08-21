@@ -9,10 +9,4 @@ import com.training.goldmarket.presentation.welcome.WelcomeViewModel
 
 interface MainActivityInterface {
 
-    fun getRegisterViewModel(): RegisterViewModel
-    fun getLoginViewModel(): LoginViewModel
-    fun getCreatePocketViewModel(): HomeViewModel
-    fun getHistoryViewModel(): HistoryViewModel
-    fun getProfileViewModel(): ProfileViewModel
-    fun getWelcomeViewModel(): WelcomeViewModel
 }

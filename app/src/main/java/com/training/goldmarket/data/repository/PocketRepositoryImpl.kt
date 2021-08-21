@@ -1,10 +1,12 @@
 package com.training.goldmarket.data.repository
 
+import android.util.Log
 import com.training.goldmarket.data.db.PocketDao
 import com.training.goldmarket.data.entity.*
 import java.util.*
+import javax.inject.Inject
 
-class PocketRepositoryImpl(private val pocketDao: PocketDao, private val userRepository: UserRepository): PocketRepository {
+class PocketRepositoryImpl @Inject constructor(private val pocketDao: PocketDao, private val userRepositoryImpl: UserRepository): PocketRepository {
     var products = arrayListOf<Product>(
         Product(1, PocketType.Gold, 880000.0, 860000.0),
         Product(2, PocketType.Platinum, 980000.0, 960000.0),
@@ -32,7 +34,7 @@ class PocketRepositoryImpl(private val pocketDao: PocketDao, private val userRep
 
     override fun insertNewPocket(name: String, type: PocketType): Pocket {
         var newPocket = Pocket( name = name, product = products[0],
-            qty =  0.0, pocketOwnerId = userRepository.currentUser?.userId)
+            qty =  0.0, pocketOwnerId = userRepositoryImpl.currentUser?.userId)
         products.stream().filter { p ->
             if (p.type == type) {
                 newPocket.product = p
@@ -41,6 +43,7 @@ class PocketRepositoryImpl(private val pocketDao: PocketDao, private val userRep
             p.type == type }
             .findFirst()
         pocketDao.insert(newPocket)
+        Log.d("NEW POCKET", newPocket.toString())
         return newPocket
     }
 

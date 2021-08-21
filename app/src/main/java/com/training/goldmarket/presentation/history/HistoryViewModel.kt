@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.training.goldmarket.data.entity.Transaction
 import com.training.goldmarket.data.repository.TransactionRepository
+import com.training.goldmarket.data.repository.TransactionRepositoryImpl
 import com.training.goldmarket.data.repository.UserRepository
+import com.training.goldmarket.data.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HistoryViewModel(val transactionRepository: TransactionRepository,
-                       val userRepository: UserRepository
+class HistoryViewModel @Inject constructor(val transactionRepositoryImpl: TransactionRepository,
+                       val userRepositoryImpl: UserRepository
                        ): ViewModel() {
 
     private var _transactionData = MutableLiveData<List<Transaction>>()
@@ -21,7 +24,7 @@ class HistoryViewModel(val transactionRepository: TransactionRepository,
     fun loadTransactionData() {
         viewModelScope.launch(Dispatchers.IO) {
             _transactionData.postValue(
-                userRepository.currentUser?.let { transactionRepository.getUserTransaction(it.userId) }
+                userRepositoryImpl.currentUser?.let { transactionRepositoryImpl.getUserTransaction(it.userId) }
             )
         }
     }

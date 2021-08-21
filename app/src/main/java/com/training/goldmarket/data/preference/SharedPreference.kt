@@ -1,20 +1,9 @@
 package com.training.goldmarket.data.preference
 
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import javax.inject.Inject
 
-class SharedPreference(context: Context) {
-
-    private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-    private val sharedPref: SharedPreferences = EncryptedSharedPreferences.create(
-        "SharedPref",
-        masterKeyAlias,
-        context,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+class SharedPreference @Inject constructor(val sharedPref: SharedPreferences) {
 
     fun save(KEY_NAME: String, text: String) {
         val saveData: SharedPreferences.Editor = sharedPref.edit()

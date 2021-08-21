@@ -8,7 +8,7 @@ import java.util.*
 data class User(
 
     @PrimaryKey
-    val userId: String = UUID.randomUUID().toString(),
+    var userId: String = UUID.randomUUID().toString(),
     val userName: String,
     val email: String?,
     val password: String

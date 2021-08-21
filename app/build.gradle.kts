@@ -82,6 +82,16 @@ dependencies {
     //Encrypt
     implementation("androidx.security:security-crypto:1.0.0")
 
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    //Dagger
+    implementation("com.google.dagger:dagger:2.37")
+    implementation("com.google.dagger:dagger-android-support:2.37")
+    kapt("com.google.dagger:dagger-compiler:2.37")
+    kapt("com.google.dagger:dagger-android-processor:2.37")
+
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")

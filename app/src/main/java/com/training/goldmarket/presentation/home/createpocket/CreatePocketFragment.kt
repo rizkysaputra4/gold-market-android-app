@@ -9,13 +9,17 @@ import android.widget.*
 import com.training.goldmarket.R
 import com.training.goldmarket.presentation.MainActivity
 import com.training.goldmarket.presentation.home.HomeViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_create_pocket.*
+import javax.inject.Inject
 
 
-class CreatePocketFragment : Fragment() {
+class CreatePocketFragment : DaggerFragment() {
 
     val pocketType = arrayListOf("Platinum", "Gold", "Silver")
     lateinit var selectedPocketType: String
+
+    @Inject
     lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +37,7 @@ class CreatePocketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).getCreatePocketViewModel()
+//        viewModel = (activity as MainActivity).getCreatePocketViewModel()
         registerButton()
     }
 

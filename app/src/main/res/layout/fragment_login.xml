@@ -6,7 +6,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="viewmodel"
             type="com.training.goldmarket.presentation.login.LoginViewModel"
             />
     </data>
@@ -80,7 +80,7 @@
                     android:ems="10"
                     android:hint="Enter your username"
                     android:inputType="textPersonName"
-                    android:text="@={viewModel.userName}"
+                    android:text="@={viewmodel.userName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -95,7 +95,7 @@
                     android:ems="10"
                     android:hint="Enter your password"
                     android:inputType="textPassword"
-                    android:text="@={viewModel.password}"
+                    android:text="@={viewmodel.password}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viewTextUserName" />
@@ -110,7 +110,7 @@
                     android:background="@xml/btn_login"
                     android:text="Login"
                     android:textColor="#FFFFFF"
-                    android:onClick="@{()->viewModel.onClickLogin()}"
+                    android:onClick="@{()->viewmodel.onClickLogin()}"
                     app:layout_constraintEnd_toEndOf="parent"
 
                     app:layout_constraintHorizontal_bias="1.0"
@@ -135,7 +135,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
                     android:text="Don't have an account? let's sign up"
-                    android:onClick="@{()->viewModel.onClickToRegister()}"
+                    android:onClick="@{()->viewmodel.onClickToRegister()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"

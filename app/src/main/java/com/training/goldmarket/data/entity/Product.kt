@@ -8,7 +8,7 @@ import java.util.*
 data class Product(
 
     @PrimaryKey
-    val productId: Int = 1,
+    var productId: Int = 1,
     val type: PocketType,
     val priceBuy: Double,
     val priceSell: Double,

@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.training.goldmarket.data.entity.User
 import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.data.repository.UserRepository
+import com.training.goldmarket.data.repository.UserRepositoryImpl
 import com.training.goldmarket.utils.AppConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileViewModel(private val userRepository: UserRepository,
-                        private val sharedPref: SharedPreference
+class ProfileViewModel @Inject constructor(private val userRepositoryImpl: UserRepository,
+                       private val sharedPref: SharedPreference
                        ): ViewModel() {
 
     lateinit var view: ProfileFragment
@@ -23,14 +25,14 @@ class ProfileViewModel(private val userRepository: UserRepository,
     fun editUser(id: String,userName: String, email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val editedUser = User(userId = id, userName = userName, email = email, password = password)
-            userRepository.editUserData(editedUser)
+            userRepositoryImpl.editUserData(editedUser)
             _user.postValue(editedUser)
         }
     }
 
     fun getUser(): User {
-        _user.value = userRepository.currentUser?: User("1", "boymen", "boy@mail.com", "boymen")
-        return userRepository.currentUser?: User("1", "boymen", "boy@mail.com", "boymen")
+        _user.value = userRepositoryImpl.currentUser?: User("1", "boymen", "boy@mail.com", "boymen")
+        return userRepositoryImpl.currentUser?: User("1", "boymen", "boy@mail.com", "boymen")
     }
 
     fun onClickEditProfile() {
@@ -39,7 +41,7 @@ class ProfileViewModel(private val userRepository: UserRepository,
 
     fun onClickLogout() {
         sharedPref.clearData(AppConstant.CURRENT_USER)
-        userRepository.currentUser = null
+        userRepositoryImpl.currentUser = null
         view.view?.let { view.logout(it) }
     }
 }

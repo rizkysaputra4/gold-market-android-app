@@ -8,13 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.training.goldmarket.data.entity.User
 import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.data.repository.UserRepository
+import com.training.goldmarket.data.repository.UserRepositoryImpl
 import com.training.goldmarket.utils.AppConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val repository: UserRepository,
-                     private val sharedPref: SharedPreference
+class LoginViewModel @Inject constructor(private val repositoryImpl: UserRepository,
+                                         private val sharedPref: SharedPreference
                      ): ViewModel() {
 
     lateinit var view: LoginFragment
@@ -27,11 +29,12 @@ class LoginViewModel(private val repository: UserRepository,
 
     fun onClickLogin() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = async { repository.checkIfUserNameAndPasswordMatch(User("0" , userName,"", password)) }
+            val result = async { repositoryImpl.checkIfUserNameAndPasswordMatch(User("0" , userName,"", password)) }
             if (result.await() != null) {
                 _isAuthorized.postValue(true)
-                repository.currentUser?.let { sharedPref.save(AppConstant.CURRENT_USER, it.userId) }
-                Log.d("SharedPref", sharedPref.retrieve(AppConstant.CURRENT_USER).toString())
+                repositoryImpl.currentUser?.let { sharedPref.save(AppConstant.CURRENT_USER, it.userId) }
+            } else {
+                _isAuthorized.postValue(false)
             }
        }
     }

@@ -9,11 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.training.goldmarket.databinding.FragmentHistoryBinding
 import com.training.goldmarket.presentation.MainActivity
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_history.*
+import javax.inject.Inject
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : DaggerFragment() {
 
     lateinit var historyAdapter: HistoryViewAdapter
+
+    @Inject
     lateinit var viewModel: HistoryViewModel
     lateinit var binding: FragmentHistoryBinding
 
@@ -27,8 +31,8 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHistoryBinding.inflate(layoutInflater, container, false)
-        viewModel = (activity as MainActivity).getHistoryViewModel()
-        historyAdapter = HistoryViewAdapter(viewModel)
+//        viewModel = (activity as MainActivity).getHistoryViewModel()
+        historyAdapter = HistoryViewAdapter()
         this.subscriber()
         viewModel.loadTransactionData()
         this.registerView()
@@ -44,8 +48,10 @@ class HistoryFragment : Fragment() {
 
     fun subscriber() {
         viewModel.transactionLiveData.observe(viewLifecycleOwner, {
-            (recyclerViewHistory.adapter as HistoryViewAdapter).transactionHistories = it
-            recyclerViewHistory.adapter?.notifyDataSetChanged()
+            it?.apply {
+                (recyclerViewHistory.adapter as HistoryViewAdapter).transactionHistories = this
+                recyclerViewHistory.adapter?.notifyDataSetChanged()
+            }
         })
     }
 }

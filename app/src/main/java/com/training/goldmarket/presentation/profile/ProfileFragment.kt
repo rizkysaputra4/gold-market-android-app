@@ -17,12 +17,15 @@ import com.training.goldmarket.databinding.FragmentProfileBinding
 import com.training.goldmarket.data.entity.User
 import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.presentation.MainActivity
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.modal_edit_user_data.view.*
+import javax.inject.Inject
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : DaggerFragment() {
 
+    @Inject
     lateinit var viewModel: ProfileViewModel
     lateinit var user: User
     lateinit var binding: FragmentProfileBinding
@@ -40,10 +43,10 @@ class ProfileFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewmodel = (activity as MainActivity).getProfileViewModel()
+            viewmodel = viewModel
         }
 
-        this.viewModel = (activity as MainActivity).getProfileViewModel()
+//        this.viewModel = (activity as MainActivity).getProfileViewModel()
         this.viewModel.view = this
         this.subscriber()
         this.user = viewModel.getUser()

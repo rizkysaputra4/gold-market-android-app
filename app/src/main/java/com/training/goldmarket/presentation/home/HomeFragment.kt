@@ -15,6 +15,7 @@ import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentHomeBinding
 import com.training.goldmarket.data.entity.Pocket
 import com.training.goldmarket.presentation.MainActivity
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_create_pocket.*
 import kotlinx.android.synthetic.main.fragment_create_pocket.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -22,11 +23,14 @@ import kotlinx.android.synthetic.main.fragment_pocket_navigator.view.*
 import kotlinx.android.synthetic.main.modal_buy_pocket_product.view.*
 import kotlinx.android.synthetic.main.modal_sell_pocket_product.view.*
 import java.lang.Exception
+import javax.inject.Inject
 
-class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterface {
+class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationInterface {
 
     val pocketType = arrayListOf("Platinum", "Gold", "Silver")
     lateinit var selectedPocketType: String
+
+    @Inject
     lateinit var viewModel: HomeViewModel
     lateinit var binding: FragmentHomeBinding
 
@@ -43,9 +47,9 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewmodel = (activity as MainActivity).getCreatePocketViewModel()
+            viewmodel = viewModel
         }
-        viewModel = (activity as MainActivity).getCreatePocketViewModel()
+//        viewModel = (activity as MainActivity).getCreatePocketViewModel()
         viewModel.loadAllPocket()
         viewModel.view = this
         this.subscriber()
@@ -149,6 +153,10 @@ class HomeFragment : Fragment(), PocketNavigationAdapter.PocketNavigationInterfa
 
     override fun onClickPocketItem(pocket: Pocket) {
         viewModel.setPocketData(pocket)
+    }
+
+    fun showErrorToast(msg: String) {
+        Toast.makeText(activity, "Error: ${msg}", Toast.LENGTH_LONG).show()
     }
 
 }

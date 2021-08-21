@@ -13,10 +13,13 @@ import androidx.navigation.fragment.findNavController
 import com.training.goldmarket.R
 import com.training.goldmarket.databinding.FragmentLoginBinding
 import com.training.goldmarket.presentation.MainActivity
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
-class LoginFragment : Fragment() {
+class LoginFragment : DaggerFragment() {
 
+    @Inject
     lateinit var viewModel: LoginViewModel
     lateinit var binding: FragmentLoginBinding
 
@@ -28,12 +31,11 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = (activity as MainActivity).getLoginViewModel()
         viewModel.view = this
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = (activity as MainActivity).getLoginViewModel()
+            viewmodel = viewModel
         }
         this.subscriber()
         this.hideBottomNav()

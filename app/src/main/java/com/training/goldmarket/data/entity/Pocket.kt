@@ -10,7 +10,7 @@ import java.util.*
 data class Pocket(
 
     @PrimaryKey
-    val pocketId: String = UUID.randomUUID().toString(),
+    var pocketId: String = UUID.randomUUID().toString(),
     val name: String,
 
     @Embedded

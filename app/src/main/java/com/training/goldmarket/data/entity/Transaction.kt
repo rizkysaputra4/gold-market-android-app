@@ -10,7 +10,7 @@ import java.util.*
 data class Transaction(
 
     @PrimaryKey
-    val transactionId: String = UUID.randomUUID().toString(),
+    var transactionId: String = UUID.randomUUID().toString(),
     val date: Date,
     val type: TransactionType,
     val pocketName: String,
