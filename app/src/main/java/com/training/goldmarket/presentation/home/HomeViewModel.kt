@@ -1,5 +1,7 @@
 package com.training.goldmarket.presentation.home
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +11,9 @@ import com.training.goldmarket.data.entity.Pocket
 import com.training.goldmarket.data.entity.PocketType
 import com.training.goldmarket.data.entity.Transaction
 import com.training.goldmarket.data.entity.TransactionType
+import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.data.repository.*
+import com.training.goldmarket.utils.AppConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -17,7 +21,8 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
                     val transactionRepositoryImpl: TransactionRepository,
-                    val userRepositoryImpl: UserRepository
+                    val userRepositoryImpl: UserRepository,
+                    val sharedPreference: SharedPreference
                     ):ViewModel() {
 
     lateinit var view: HomeFragment
@@ -39,9 +44,15 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
 
         viewModelScope.launch(Dispatchers.IO) {
             val APOCKET = pocketRepository.insertNewPocket(name, pocketType)
-            setPocketData(APOCKET)
-            Log.d("POCKET", APOCKET.toString())
-            loadAllPocket()
+            if (APOCKET != null) {
+                setPocketData(APOCKET)
+                Log.d("POCKET", APOCKET.toString())
+                loadAllPocket()
+            } else {
+                Handler(Looper.getMainLooper()).post {
+                    view.showErrorToast("ERROR: Failed to insert new pocket")
+                }
+            }
         }
     }
 
@@ -52,9 +63,9 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
     fun loadAllPocket() {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("USERREPO", userRepositoryImpl.hashCode().toString())
-            _allPocket.postValue(userRepositoryImpl.currentUser?.let {
-                pocketRepository.getAllPocketByUserId(it.userId)
-            })
+            _allPocket.postValue(
+                pocketRepository.getAllPocketByUserId(sharedPreference.retrieve(AppConstant.CURRENT_USER)!!)
+            )
             try {
                 _pocketData.postValue(_allPocket.value?.get(0))
             } catch (e: Exception) {

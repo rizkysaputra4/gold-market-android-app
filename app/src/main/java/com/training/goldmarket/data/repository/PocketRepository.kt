@@ -6,9 +6,7 @@ import com.training.goldmarket.data.entity.Transaction
 import com.training.goldmarket.data.entity.TransactionType
 
 interface PocketRepository {
-    fun getAllPocket(): List<Pocket>
-    fun updatePocket(pocket: Pocket)
-    fun insertNewPocket(name: String, type: PocketType): Pocket
-    fun getAllTransaction(): List<Transaction>
-    fun getAllPocketByUserId(userId: String): List<Pocket>
+    suspend fun updatePocket(pocket: Pocket)
+    suspend fun insertNewPocket(name: String, type: PocketType): Pocket?
+    suspend fun getAllPocketByUserId(userId: String): List<Pocket>
 }

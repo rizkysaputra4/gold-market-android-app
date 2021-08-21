@@ -3,36 +3,59 @@ package com.training.goldmarket.data.repository
 import android.util.Log
 import com.training.goldmarket.data.db.PocketDao
 import com.training.goldmarket.data.entity.*
+import com.training.goldmarket.data.preference.SharedPreference
+import com.training.goldmarket.data.remote.api.PocketApi
+import com.training.goldmarket.data.remote.request.Customer
+import com.training.goldmarket.data.remote.request.NewPocketRequest
 import java.util.*
 import javax.inject.Inject
 
-class PocketRepositoryImpl @Inject constructor(private val pocketDao: PocketDao, private val userRepositoryImpl: UserRepository): PocketRepository {
+class PocketRepositoryImpl @Inject constructor(
+    private val pocketDao: PocketDao,
+    private val userRepositoryImpl: UserRepository,
+    private val pocketApi: PocketApi
+): PocketRepository {
     var products = arrayListOf<Product>(
-        Product(1, PocketType.Gold, 880000.0, 860000.0),
-        Product(2, PocketType.Platinum, 980000.0, 960000.0),
-        Product(3, PocketType.Silver, 680000.0, 660000.0)
+        Product(3, PocketType.Gold, 880000.0, 860000.0),
+        Product(4, PocketType.Platinum, 980000.0, 960000.0),
+        Product(5, PocketType.Silver, 680000.0, 660000.0)
     )
     var pockets = arrayListOf<Pocket>()
-    var transactions = arrayListOf<Transaction>()
 
     init {
         var date = Calendar.getInstance()
         date.add(Calendar.DAY_OF_YEAR, -7)
     }
 
-    override fun getAllPocket(): List<Pocket> {
-        return pocketDao.getAllPocket()
+    override suspend fun getAllPocketByUserId(userId: String): List<Pocket> {
+        val response = pocketApi.getCustomerPocket(userId, "0")
+        if (response.isSuccessful) {
+            var pockets = arrayListOf<Pocket>()
+            response.body()?.forEach { pocket ->
+                val newPocket = Pocket(
+                    name = pocket.pocketName,
+                    pocketOwnerId = userId,
+                    product = products[0],
+                    qty = pocket.pocketQty
+                )
+                products.stream().filter { p ->
+                    if (p.productId == pocket.productId) {
+                        newPocket.product = p
+                    }
+                    p.productId == pocket.productId }
+                    .findFirst()
+                pockets.add(newPocket)
+            }
+            return pockets
+        }
+        return arrayListOf()
     }
 
-    override fun getAllPocketByUserId(userId: String): List<Pocket> {
-        return pocketDao.getAllPocketByUserId(userId)
-    }
-
-    override fun updatePocket(pocket: Pocket) {
+    override suspend fun updatePocket(pocket: Pocket) {
         pocketDao.update(pocket)
     }
 
-    override fun insertNewPocket(name: String, type: PocketType): Pocket {
+    override suspend fun insertNewPocket(name: String, type: PocketType): Pocket? {
         var newPocket = Pocket( name = name, product = products[0],
             qty =  0.0, pocketOwnerId = userRepositoryImpl.currentUser?.userId)
         products.stream().filter { p ->
@@ -42,12 +65,23 @@ class PocketRepositoryImpl @Inject constructor(private val pocketDao: PocketDao,
             }
             p.type == type }
             .findFirst()
-        pocketDao.insert(newPocket)
-        Log.d("NEW POCKET", newPocket.toString())
-        return newPocket
-    }
+//        pocketDao.insert(newPocket)
+        Log.d("NEWPOCKET", newPocket.toString())
+        newPocket.pocketOwnerId?.let {
+            val pocketRequest = NewPocketRequest(
+                pocketQty = newPocket.qty.toInt(),
+                pocketName = newPocket.name,
+                customer = Customer(it),
+                product = com.training.goldmarket.data.remote.request.Product(newPocket.product.productId)
+            )
+            val request = pocketApi.registerNewPocket(pocketRequest)
 
-    override fun getAllTransaction(): List<Transaction> {
-        return transactions
+            Log.d("NEWPOCKET", pocketRequest.toString())
+            if (request.isSuccessful) {
+                newPocket.pocketId = request.body()?.id ?:
+                return newPocket
+            }
+        }
+        return null
     }
 }

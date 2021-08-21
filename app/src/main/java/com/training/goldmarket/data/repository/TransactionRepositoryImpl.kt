@@ -6,11 +6,11 @@ import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(private val transactionDao: TransactionDao): TransactionRepository {
 
-    override fun addTransaction(transaction: Transaction) {
+    override suspend fun addTransaction(transaction: Transaction) {
         transactionDao.insert(transaction)
     }
 
-    override fun getUserTransaction(userId: String): List<Transaction>? {
+    override suspend fun getUserTransaction(userId: String): List<Transaction>? {
         return transactionDao.getTransactionByUserId(userId)
     }
 }

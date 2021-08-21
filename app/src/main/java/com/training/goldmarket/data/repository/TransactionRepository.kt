@@ -4,6 +4,6 @@ import com.training.goldmarket.data.entity.Transaction
 
 interface TransactionRepository {
 
-    fun addTransaction(transaction: Transaction)
-    fun getUserTransaction(userId: String): List<Transaction>?
+    suspend fun addTransaction(transaction: Transaction)
+    suspend fun getUserTransaction(userId: String): List<Transaction>?
 }

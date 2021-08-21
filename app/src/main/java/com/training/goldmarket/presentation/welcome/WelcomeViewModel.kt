@@ -21,6 +21,7 @@ class WelcomeViewModel @Inject constructor(private val repositoryImpl: UserRepos
             viewModelScope.launch(Dispatchers.IO) {
                 repositoryImpl.currentUser = repositoryImpl.getUserById(savedUser)
                 Log.d("USERREPO", repositoryImpl.hashCode().toString())
+                Log.d("CURRENTUSER", repositoryImpl.currentUser.toString())
             }
         }
         return savedUser != null

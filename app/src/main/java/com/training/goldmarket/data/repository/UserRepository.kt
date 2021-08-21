@@ -7,7 +7,7 @@ interface UserRepository {
     var currentUser: User?
 
     suspend fun checkIfUserNameAndPasswordMatch(user: User): User?
-    fun insertNewUser(userName: String, email: String, password: String)
-    fun editUserData(user: User)
-    fun getUserById(id: String): User
+    suspend fun insertNewUser(userName: String, email: String, password: String): Boolean
+    suspend fun editUserData(user: User): Boolean
+    suspend fun getUserById(id: String): User?
 }

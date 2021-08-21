@@ -7,6 +7,7 @@ import com.training.goldmarket.di.db.DatabaseModule
 import com.training.goldmarket.di.preference.PreferenceModule
 import com.training.goldmarket.di.repository.RepositoryModule
 import com.training.goldmarket.di.ActivitiesModule
+import com.training.goldmarket.di.api.ApiModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
-    AppModule::class,
+    ApiModule::class,
     RepositoryModule::class,
     PreferenceModule::class,
     DatabaseModule::class,
