@@ -6,6 +6,7 @@ import com.training.goldmarket.data.entity.*
 import com.training.goldmarket.data.preference.SharedPreference
 import com.training.goldmarket.data.remote.api.PocketApi
 import com.training.goldmarket.data.remote.request.Customer
+import com.training.goldmarket.data.remote.request.EditPocketRequest
 import com.training.goldmarket.data.remote.request.NewPocketRequest
 import java.util.*
 import javax.inject.Inject
@@ -33,6 +34,7 @@ class PocketRepositoryImpl @Inject constructor(
             var pockets = arrayListOf<Pocket>()
             response.body()?.forEach { pocket ->
                 val newPocket = Pocket(
+                    pocketId = pocket.id,
                     name = pocket.pocketName,
                     pocketOwnerId = userId,
                     product = products[0],
@@ -51,8 +53,20 @@ class PocketRepositoryImpl @Inject constructor(
         return arrayListOf()
     }
 
-    override suspend fun updatePocket(pocket: Pocket) {
-        pocketDao.update(pocket)
+    override suspend fun updatePocket(pocket: Pocket): Boolean {
+//        pocketDao.update(pocket)
+        val editPocket = EditPocketRequest(
+            id = pocket.pocketId?: "",
+            pocketQty = pocket.qty.toInt(),
+            pocketName = pocket.name,
+            customer = Customer(pocket.pocketOwnerId?: ""),
+            product = com.training.goldmarket.data.remote.request.Product(pocket.product.productId)
+        )
+        val response = pocketApi.updatePocket(
+            editPocket
+        )
+        Log.d("EDITPOCKET", editPocket.toString())
+        return response.isSuccessful
     }
 
     override suspend fun insertNewPocket(name: String, type: PocketType): Pocket? {
@@ -67,21 +81,23 @@ class PocketRepositoryImpl @Inject constructor(
             .findFirst()
 //        pocketDao.insert(newPocket)
         Log.d("NEWPOCKET", newPocket.toString())
-        newPocket.pocketOwnerId?.let {
+        if (newPocket.pocketOwnerId != null) {
             val pocketRequest = NewPocketRequest(
                 pocketQty = newPocket.qty.toInt(),
                 pocketName = newPocket.name,
-                customer = Customer(it),
+                customer = Customer(newPocket.pocketOwnerId!!),
                 product = com.training.goldmarket.data.remote.request.Product(newPocket.product.productId)
             )
             val request = pocketApi.registerNewPocket(pocketRequest)
 
             Log.d("NEWPOCKET", pocketRequest.toString())
             if (request.isSuccessful) {
-                newPocket.pocketId = request.body()?.id ?:
+                newPocket.pocketId = request.body()?.id ?: ""
                 return newPocket
             }
+            Log.d("NEWPOCKET", "Return isNOTSuccess ${request.code()}")
         }
+        Log.d("NEWPOCKET", "Return null")
         return null
     }
 }

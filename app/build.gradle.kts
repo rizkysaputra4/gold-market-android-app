@@ -90,6 +90,7 @@ dependencies {
     //Dagger
     implementation("com.google.dagger:dagger:2.37")
     implementation("com.google.dagger:dagger-android-support:2.37")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     kapt("com.google.dagger:dagger-compiler:2.37")
     kapt("com.google.dagger:dagger-android-processor:2.37")
 

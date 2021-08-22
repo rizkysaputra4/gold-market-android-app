@@ -44,10 +44,9 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
 
         viewModelScope.launch(Dispatchers.IO) {
             val APOCKET = pocketRepository.insertNewPocket(name, pocketType)
+            Log.d("POCKET", APOCKET.toString())
             if (APOCKET != null) {
                 setPocketData(APOCKET)
-                Log.d("POCKET", APOCKET.toString())
-                loadAllPocket()
             } else {
                 Handler(Looper.getMainLooper()).post {
                     view.showErrorToast("ERROR: Failed to insert new pocket")
@@ -57,6 +56,7 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
     }
 
     fun setPocketData(pocket: Pocket) {
+        Log.d("EDITPOCKET", pocket.toString())
         _pocketData.postValue(pocket)
     }
 
@@ -66,11 +66,11 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
             _allPocket.postValue(
                 pocketRepository.getAllPocketByUserId(sharedPreference.retrieve(AppConstant.CURRENT_USER)!!)
             )
-            try {
-                _pocketData.postValue(_allPocket.value?.get(0))
-            } catch (e: Exception) {
-                Log.e("POCKET DATA", "Index out of bound")
-            }
+//            try {
+//                _pocketData.postValue(_allPocket.value?.get(0))
+//            } catch (e: Exception) {
+//                Log.e("POCKET DATA", "Index out of bound")
+//            }
             Log.d("POCKET DATA", _pocketData.value.toString())
             Log.d("USER", userRepositoryImpl.currentUser.toString())
         }
@@ -80,7 +80,11 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
         viewModelScope.launch(Dispatchers.IO) {
             var pocket = _pocketData.value as Pocket
             pocket.qty = pocket.qty - gram
-            pocketRepository.updatePocket(pocket)
+            Log.d("EDITPOCKET", pocket.toString())
+            if (!pocketRepository.updatePocket(pocket)) {
+                view.showErrorToast("Error when updating pocket")
+                return@launch
+            }
             _pocketData.postValue(pocket)
 
             transactionRepositoryImpl.addTransaction(
@@ -101,7 +105,10 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
         viewModelScope.launch(Dispatchers.IO) {
             var pocket = _pocketData.value as Pocket
             pocket.qty = pocket.qty + gram
-            pocketRepository.updatePocket(pocket)
+            if (!pocketRepository.updatePocket(pocket)) {
+                view.showErrorToast("Error when updating pocket")
+                return@launch
+            }
             _pocketData.postValue(pocket)
 
             transactionRepositoryImpl.addTransaction(

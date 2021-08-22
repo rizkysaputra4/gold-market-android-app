@@ -11,12 +11,13 @@ data class Transaction(
 
     @PrimaryKey
     var transactionId: String = UUID.randomUUID().toString(),
-    val date: Date,
-    val type: TransactionType,
-    val pocketName: String,
-    val productPrice: Double,
-    val productType: PocketType,
-    val qty: Double,
+
+    var date: Date? = null,
+    var type: TransactionType,
+    var pocketName: String,
+    var productPrice: Double,
+    var productType: PocketType,
+    var qty: Double,
     var transactionOwnerId: String?
 ) {
 }

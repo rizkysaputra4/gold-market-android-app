@@ -98,6 +98,7 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
         messageBoxView.setOnClickListener(){
             messageBoxInstance.dismiss()
         }
+        viewModel.loadAllPocket()
         messageBoxView.apply {
             recycleViewPocketNavigator.apply {
                 layoutManager = LinearLayoutManager(messageBoxView.context)

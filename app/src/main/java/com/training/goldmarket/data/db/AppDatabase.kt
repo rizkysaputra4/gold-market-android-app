@@ -25,6 +25,7 @@ abstract class AppDatabase: RoomDatabase() {
                     AppDatabase::class.java,
                     "goldmarket_database"
                 )
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
