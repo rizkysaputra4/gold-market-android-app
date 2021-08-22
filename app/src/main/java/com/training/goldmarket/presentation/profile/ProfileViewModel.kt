@@ -1,5 +1,7 @@
 package com.training.goldmarket.presentation.profile
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +27,16 @@ class ProfileViewModel @Inject constructor(private val userRepositoryImpl: UserR
     fun editUser(id: String,userName: String, email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val editedUser = User(userId = id, userName = userName, email = email, password = password)
-            userRepositoryImpl.editUserData(editedUser)
-            _user.postValue(editedUser)
+            if (userRepositoryImpl.editUserData(editedUser)) {
+                Handler(Looper.getMainLooper()).post {
+                    view.showToast("User Updated")
+                }
+                _user.postValue(editedUser)
+            } else {
+                Handler(Looper.getMainLooper()).post {
+                    view.showToast("ERROR: Failed to edit user")
+                }
+            }
         }
     }
 

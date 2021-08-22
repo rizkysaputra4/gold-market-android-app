@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -77,6 +78,10 @@ class ProfileFragment : DaggerFragment() {
         }
     }
 
+    fun showToast(msg: String) {
+        Toast.makeText(activity, "${msg}", Toast.LENGTH_LONG).show()
+    }
+
     fun logout(view: View) {
         Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_login)
     }
@@ -90,6 +95,7 @@ class ProfileFragment : DaggerFragment() {
         messageBoxView.apply {
             editTextUserName.setText(user.userName)
             editTextEmail.setText(user.email)
+            editTextPassword.setText(user.password)
 
             btnEditUserId.setOnClickListener {
                 Log.d("INITPROFILEVIE2", user.toString())

@@ -44,9 +44,22 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editUserData(user: User): Boolean {
-        userDao.update(user)
-        Log.d("USERS", userDao.getAllUser().toString())
-        return true
+        val response = userApi.getCustomerById(user.userId)
+        if (response.isSuccessful && response.body() != null && response.body()!!.id != null) {
+            val currentUserData = response.body()
+            currentUserData!!.firstName = user.userName
+            currentUserData.id = currentUserData.id
+            currentUserData.userName = user.userName
+            currentUserData.email = user.email?: user.userName
+            currentUserData.userPassword = user.password?: user.userName
+            val response = userApi.editCustomerData(currentUserData)
+            if (response.isSuccessful) {
+                userDao.update(user)
+                Log.d("USERS", userDao.getAllUser().toString())
+                return true
+            }
+        }
+        return false
     }
 
     override suspend fun getUserById(id: String): User? {

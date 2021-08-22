@@ -20,4 +20,7 @@ interface UserApi {
 
     @GET("customers/{id}")
     suspend fun getCustomerById(@Path("id") id: String): Response<RegisterRequest>
+
+    @POST("customers")
+    suspend fun editCustomerData(@Body data: RegisterRequest): Response<RegisterRequest>
 }
