@@ -20,7 +20,9 @@ class DatabaseModule {
             application,
             AppDatabase::class.java,
             "gold-market_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides

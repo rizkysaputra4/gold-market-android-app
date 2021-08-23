@@ -1,9 +1,6 @@
 package com.training.goldmarket.data.entity
 
-import androidx.room.Embedded
-import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 data class Product(
 

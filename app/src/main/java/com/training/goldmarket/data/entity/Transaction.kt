@@ -1,6 +1,5 @@
 package com.training.goldmarket.data.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.training.goldmarket.utils.AppConstant
