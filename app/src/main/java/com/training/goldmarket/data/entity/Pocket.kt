@@ -11,7 +11,7 @@ data class Pocket(
 
     @PrimaryKey
     var pocketId: String = UUID.randomUUID().toString(),
-    val name: String,
+    var name: String,
 
     @Embedded
     var product: Product,

@@ -90,6 +90,23 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
         }
     }
 
+    fun editPocketBox(){
+        val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.modal_edit_pocket, null)
+        val messageBoxBuilder = AlertDialog.Builder(activity).setView(messageBoxView)
+        val  messageBoxInstance = messageBoxBuilder.show()
+
+        spinnerRegister(messageBoxView)
+        messageBoxView.setOnClickListener(){
+            messageBoxInstance.dismiss()
+        }
+        messageBoxView.textPocketName.setText(viewModel.pocketLiveData.value!!.name)
+
+        messageBoxView.btnAddPocket.setOnClickListener {
+            viewModel.editPocket(messageBoxView.textPocketName.text.toString())
+            messageBoxInstance.dismiss()
+        }
+    }
+
     fun showPocketModalNavigator(){
         val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.fragment_pocket_navigator, null)
         val messageBoxBuilder = AlertDialog.Builder(activity).setView(messageBoxView)

@@ -44,9 +44,27 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
 
         viewModelScope.launch(Dispatchers.IO) {
             val APOCKET = pocketRepository.insertNewPocket(name, pocketType)
-            Log.d("POCKET", APOCKET.toString())
             if (APOCKET != null) {
                 setPocketData(APOCKET)
+            } else {
+                Handler(Looper.getMainLooper()).post {
+                    view.showErrorToast("ERROR: Failed to insert new pocket")
+                }
+            }
+        }
+    }
+
+    fun editPocket(name: String) {
+        var editedPocket = pocketLiveData.value
+        if (editedPocket == null) {
+            view.showErrorToast("Current pocket is Null")
+            return
+        }
+        editedPocket.name = name
+
+        viewModelScope.launch(Dispatchers.IO) {
+            if (pocketRepository.updatePocket(editedPocket)) {
+                setPocketData(editedPocket)
             } else {
                 Handler(Looper.getMainLooper()).post {
                     view.showErrorToast("ERROR: Failed to insert new pocket")
@@ -144,5 +162,7 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
     fun onClickCreatePocket() { view.createPocketBox() }
 
     fun onClickPocketNavigate() { view.showPocketModalNavigator() }
+
+    fun onClickEditPocket() { view.editPocketBox() }
 
 }

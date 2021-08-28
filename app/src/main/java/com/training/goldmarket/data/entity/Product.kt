@@ -6,7 +6,7 @@ data class Product(
 
     @PrimaryKey
     var productId: Int = 1,
-    val type: PocketType,
+    var type: PocketType,
     val priceBuy: Double,
     val priceSell: Double,
 ) {
