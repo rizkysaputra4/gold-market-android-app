@@ -6,6 +6,7 @@ import com.training.goldmarket.data.remote.response.GetUserResponse
 import retrofit2.Response
 import retrofit2.http.*
 import java.util.*
+import kotlin.collections.HashMap
 
 interface PocketApi {
 
@@ -19,5 +20,8 @@ interface PocketApi {
 
     @PUT("pockets")
     suspend fun updatePocket(@Body pocket: EditPocketRequest): Response<GetUserResponse>
+
+    @DELETE("pockets/{id}")
+    suspend fun deletePocket(@Path("id") id: String): Response<Void>
 
 }

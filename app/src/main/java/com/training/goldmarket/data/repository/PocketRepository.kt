@@ -9,4 +9,5 @@ interface PocketRepository {
     suspend fun updatePocket(pocket: Pocket): Boolean
     suspend fun insertNewPocket(name: String, type: PocketType): Pocket?
     suspend fun getAllPocketByUserId(userId: String): List<Pocket>
+    suspend fun deletePocket(id: String): Boolean
 }

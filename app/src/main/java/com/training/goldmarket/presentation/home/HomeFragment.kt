@@ -17,9 +17,12 @@ import com.training.goldmarket.presentation.MainActivity
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_create_pocket.*
 import kotlinx.android.synthetic.main.fragment_create_pocket.view.*
+import kotlinx.android.synthetic.main.fragment_create_pocket.view.btnAddPocket
+import kotlinx.android.synthetic.main.fragment_create_pocket.view.textPocketName
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_pocket_navigator.view.*
 import kotlinx.android.synthetic.main.modal_buy_pocket_product.view.*
+import kotlinx.android.synthetic.main.modal_edit_pocket.view.*
 import kotlinx.android.synthetic.main.modal_sell_pocket_product.view.*
 import java.lang.Exception
 import javax.inject.Inject
@@ -105,6 +108,10 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
             viewModel.editPocket(messageBoxView.textPocketName.text.toString())
             messageBoxInstance.dismiss()
         }
+        messageBoxView.btnDeletePocket.setOnClickListener {
+            viewModel.deletePocket()
+            messageBoxInstance.dismiss()
+        }
     }
 
     fun showPocketModalNavigator(){
@@ -169,7 +176,7 @@ class HomeFragment : DaggerFragment(), PocketNavigationAdapter.PocketNavigationI
     }
 
     fun showErrorToast(msg: String) {
-        Toast.makeText(activity, "Error: ${msg}", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
     }
 
 }

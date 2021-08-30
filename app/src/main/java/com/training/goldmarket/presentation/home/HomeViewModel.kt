@@ -73,6 +73,17 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
         }
     }
 
+    fun deletePocket() {
+        viewModelScope.launch {
+            if (pocketLiveData.value?.let { pocketRepository.deletePocket(it.pocketId) } == true) {
+                view.showErrorToast("Pocket deleted Successfully")
+                loadAllPocket()
+            } else {
+                view.showErrorToast("Error when deleting pocket")
+            }
+        }
+    }
+
     fun setPocketData(pocket: Pocket) {
         Log.d("EDITPOCKET", pocket.toString())
         _pocketData.postValue(pocket)
@@ -98,9 +109,17 @@ class HomeViewModel @Inject constructor(val pocketRepository: PocketRepository,
         viewModelScope.launch(Dispatchers.IO) {
             var pocket = _pocketData.value as Pocket
             pocket.qty = pocket.qty - gram
-            Log.d("EDITPOCKET", pocket.toString())
+
+            if (pocket.qty < 0) {
+                Handler(Looper.getMainLooper()).post {
+                    view.showErrorToast("Not enough product to sell")
+                }
+                return@launch
+            }
             if (!pocketRepository.updatePocket(pocket)) {
-                view.showErrorToast("Error when updating pocket")
+                Handler(Looper.getMainLooper()).post {
+                    view.showErrorToast("Error when updating pocket")
+                }
                 return@launch
             }
             _pocketData.postValue(pocket)

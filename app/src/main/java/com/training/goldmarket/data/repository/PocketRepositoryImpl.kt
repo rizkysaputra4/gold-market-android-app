@@ -53,6 +53,10 @@ class PocketRepositoryImpl @Inject constructor(
         return arrayListOf()
     }
 
+    override suspend fun deletePocket(id: String): Boolean {
+        return pocketApi.deletePocket(id).isSuccessful
+    }
+
     override suspend fun updatePocket(pocket: Pocket): Boolean {
 //        pocketDao.update(pocket)
         val editPocket = EditPocketRequest(
